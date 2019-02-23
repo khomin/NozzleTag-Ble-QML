@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>scanner.qml</file>
+        <file>default.png</file>
+    </qresource>
+    <qresource prefix="/qml">
+        <file>qml/mainPanel/MainPanel.qml</file>
+    </qresource>
+</RCC>
