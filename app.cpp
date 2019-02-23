@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
 //    viewer.rootContext()->setContextProperty("programmModel", interfaceModel);
 
-    viewer.setSource(QUrl("qrc:/scanner.qml"));
+    viewer.setSource(QUrl("qrc:/qml/qml/app.qml"));
 
     return app.exec();
 }

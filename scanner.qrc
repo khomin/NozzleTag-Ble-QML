@@ -1,9 +1,5 @@
 <RCC>
-    <qresource prefix="/">
-        <file>scanner.qml</file>
+    <qresource prefix="/image">
         <file>default.png</file>
-    </qresource>
-    <qresource prefix="/qml">
-        <file>qml/mainPanel/MainPanel.qml</file>
     </qresource>
 </RCC>

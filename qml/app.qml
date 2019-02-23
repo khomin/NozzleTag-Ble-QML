@@ -5,7 +5,8 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Window 2.2
-import "qrc:/qml/qml/mainPanel/" as MainPanel
+import "qrc:/qml/qml/mainPanel"
+import "qrc:/qml/qml/PropertyPanel"
 
 ApplicationWindow {
     width: 800
@@ -24,7 +25,7 @@ ApplicationWindow {
 
     Action {
         id: copyAction
-        text: qsTr("&Copy")
+        text: qsTr("Copy")
         shortcut: StandardKey.Copy
         iconName: "edit-copy"
         enabled: (!!activeFocusItem && !!activeFocusItem["copy"])
@@ -33,7 +34,7 @@ ApplicationWindow {
 
     Action {
         id: cutAction
-        text: qsTr("Cu&t")
+        text: qsTr("Cut")
         shortcut: StandardKey.Cut
         iconName: "edit-cut"
         enabled: (!!activeFocusItem && !!activeFocusItem["cut"])
@@ -42,7 +43,7 @@ ApplicationWindow {
 
     Action {
         id: pasteAction
-        text: qsTr("&Paste")
+        text: qsTr("Paste")
         shortcut: StandardKey.Paste
         iconName: "edit-paste"
         enabled: (!!activeFocusItem && !!activeFocusItem["paste"])
@@ -51,7 +52,7 @@ ApplicationWindow {
 
     menuBar: MenuBar {
         Menu {
-            title: qsTr("&File")
+            title: qsTr("File")
             MenuItem {
                 text: qsTr("E&xit")
                 shortcut: StandardKey.Quit
@@ -59,7 +60,7 @@ ApplicationWindow {
             }
         }
         Menu {
-            title: qsTr("&Edit")
+            title: qsTr("Edit")
             MenuItem {
                 action: cutAction
             }
@@ -71,7 +72,7 @@ ApplicationWindow {
             }
         }
         Menu {
-            title: qsTr("&Help")
+            title: qsTr("Help")
             MenuItem {
                 text: qsTr("About...")
                 onTriggered: aboutDialog.open()
@@ -88,7 +89,7 @@ ApplicationWindow {
 
             background: Rectangle {
                 id: rect
-                color: "#303030"
+                color: "#3c3b37"
             }
 
             itemDelegate: Rectangle {            // the menus
@@ -108,12 +109,12 @@ ApplicationWindow {
                 id: goreStyle
 
                 frame: Rectangle {
-                    color: "#303030"
+                    color: "#3c3b37"
                 }
 
                 itemDelegate {
                     background: Rectangle {
-                        color:  styleData.selected || styleData.open ? "#ff5c00" : "#303030"
+                        color:  styleData.selected || styleData.open ? "#ff5c00" : "#3c3b37"
                         radius: styleData.selected ? 3 : 0
                     }
 
@@ -159,7 +160,6 @@ ApplicationWindow {
                         }
                     }
                 }
-                // scrollIndicator:               // <--- could be an image
                 separator: Rectangle {
                     width: parent.width
                     implicitHeight: 2
@@ -170,23 +170,17 @@ ApplicationWindow {
     }
 
 
-    MainPanel {
-        id: mainPanel
-
-//        anchors.fill: parent
-
-//        Layout.minimumWidth: 800
-//        Layout.minimumHeight: 480
-//        Layout.preferredWidth: 768
-//        Layout.preferredHeight: 480
-
-
-//        tableView.model: CustomerModel
-//        Component.onCompleted: CustomerModel.selection = tableView.selection
+    Row {
+        anchors.fill: parent
+        MainPanel {
+            id: mainPanel
+            width: parent.width / 3
+            height: parent.height
+        }
+        PropertyPanel {
+            id:propertyPanel
+            width: parent.width - mainPanel.width
+            height: parent.height
+        }
     }
 }
-
-
-
-//import QtQuick 2.0
-

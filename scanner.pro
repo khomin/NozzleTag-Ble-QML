@@ -3,23 +3,20 @@ QT += serialport
 QT += charts qml
 QT += sql
 QT += network
-CONFIG+=qml_debug
+#CONFIG+=qml_debug
 CONFIG += c++14
 
 
-SOURCES += qmlscanner.cpp
+SOURCES += \
+    app.cpp
 
-TARGET = qml_scanner
+TARGET = NozzleBle
 TEMPLATE = app
 
 RESOURCES += \
-    scanner.qrc
+    resource.qrc
 
-OTHER_FILES += \
-    scanner.qml \
-    default.png
+OTHER_FILES +=
 
-#DEFINES += QMLJSDEBUGGER
-
-target.path = $$[QT_INSTALL_EXAMPLES]/bluetooth/scanner
+#target.path = $$[QT_INSTALL_EXAMPLES]/bluetooth/scanner
 INSTALLS += target
