@@ -113,10 +113,10 @@ Item {
                         anchors.leftMargin: 5
                         Text {
                             id: bttext
-                            text: devName
+                            text: devName + " " + devRssi
                             font.family: "FreeSerif"
                             font.pointSize: 12
-                            color: isCurrent ? "#ff5c00" : "black";
+                            color: "#ff5c00"// : "black";
                         }
 
                         Text {
@@ -126,7 +126,7 @@ Item {
                             text: devAddr
                             font.family: "FreeSerif"
                             font.pointSize: 14
-                            color: isCurrent ? "#ff5c00" : "black";
+                            color: "#ff5c00" //: "black";
                             Behavior on opacity {
                                 NumberAnimation { duration: 200}
                             }

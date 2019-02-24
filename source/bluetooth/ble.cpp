@@ -7,34 +7,37 @@
 #include <QVector>
 #include <QPair>
 #include <QTimer>
+#include <QDebug>
 
 BleDevice::BleDevice() {
     scanningIsRunning = false;
     discoveryAgent = new QBluetoothDeviceDiscoveryAgent();
     localDevice = new QBluetoothLocalDevice();
 
-    //    connect(ui->inquiryType, SIGNAL(toggled(bool)), this, SLOT(setGeneralUnlimited(bool)));
-    //    connect(ui->scan, SIGNAL(clicked()), this, SLOT(startScan()));
+//    QTimer* timer = new QTimer();
+//    timer->setInterval(500);
+//    connect(timer, &QTimer::timeout, [&]() {
+//        qDebug() << QString::number(devInfo->rssi());
+////        QModelIndex index = bleModel.index(0, 0);
+////        bleModel.setData(index, 10, BleModel::RoleRssi);
+////        bleModel.setData(index, 10, BleModel::RoleAddr);
+////        bleModel.setData(index, 10, BleModel::RoleName);
+//    });
 
     connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered, this,
         [&] (const QBluetoothDeviceInfo & info) {
-        bleModel.addBle(new BleModelItem(info.name(), info.address().toString()));
+//            devInfo = (QBluetoothDeviceInfo*)&info;
+//            qDebug() << QString::number(devInfo->rssi());
+            bleModel.addBle(new BleModelItem(info.name(), info.address().toString(), info.rssi()));
+//            timer->start();
         }
     );
+
     connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this,  [&]() {
         scanningIsRunning = false;
         emit scanFinishedSignal();
     });
-    //    connect(ui->list, SIGNAL(itemActivated(QListWidgetItem*)),
-    //            this, SLOT(itemActivated(QListWidgetItem*)));
-//    connect(localDevice, SIGNAL(hostModeStateChanged(QBluetoothLocalDevice::HostMode)),
-//            this, SLOT(hostModeStateChanged(QBluetoothLocalDevice::HostMode)));
-//    hostModeStateChanged(localDevice->hostMode());
-    // add context menu for devices to be able to pair device
-    //    ui->list->setContextMenuPolicy(Qt::CustomContextMenu);
-    //    connect(ui->list, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(displayPairingMenu(QPoint)));
-    //    connect(localDevice, SIGNAL(pairingFinished(QBluetoothAddress,QBluetoothLocalDevice::Pairing))
-    //        , this, SLOT(pairingDone(QBluetoothAddress,QBluetoothLocalDevice::Pairing)));
+
     startScan();
 }
 

@@ -24,6 +24,8 @@ QVariant BleModel::data(const QModelIndex & index, int role) const {
         return ble_dev->getDevName();
     else if (role == RoleAddr)
         return ble_dev->getDevAddr();
+    else  if (role == RoleRssi)
+        return ble_dev->getRssi();
     return QVariant();
 }
 
@@ -31,5 +33,6 @@ QHash<int, QByteArray> BleModel::roleNames() const {
     QHash<int, QByteArray> roles;
     roles[RoleName] = "devName";
     roles[RoleAddr] = "devAddr";
+    roles[RoleRssi] = "devRssi";
     return roles;
 }

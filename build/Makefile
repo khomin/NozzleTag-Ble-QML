@@ -740,12 +740,7 @@ qrc_resource.cpp: ../resource.qrc \
 		../../../../PROGRAMMs/qt/5.12.1/gcc_64/bin/rcc \
 		../qml/app.qml \
 		../qml/PropertyPanel/PropertyPanel.qml \
-		../qml/mainPanel/Settings.qml \
-		../qml/mainPanel/topBar.qml \
-		../qml/mainPanel/Session.qml \
-		../qml/mainPanel/Support.qml \
 		../qml/mainPanel/MainPanel.qml \
-		../qml/mainPanel/ProjectMainStack.qml \
 		../qml/miscElems/Button.qml \
 		../qml/miscElems/AnimatedAreaSeries.qml \
 		../qml/miscElems/ButtonRound.qml \

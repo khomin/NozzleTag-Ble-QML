@@ -5,11 +5,6 @@
     <qresource prefix="/qml">
         <file>qml/app.qml</file>
         <file>qml/mainPanel/MainPanel.qml</file>
-        <file>qml/mainPanel/ProjectMainStack.qml</file>
-        <file>qml/mainPanel/Session.qml</file>
-        <file>qml/mainPanel/Settings.qml</file>
-        <file>qml/mainPanel/Support.qml</file>
-        <file>qml/mainPanel/topBar.qml</file>
         <file>qml/PropertyPanel/PropertyPanel.qml</file>
         <file>qml/miscElems/AnimatedAreaSeries.qml</file>
         <file>qml/miscElems/Button.qml</file>
