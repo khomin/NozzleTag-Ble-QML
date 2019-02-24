@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_QML_DEBUG -DQT_QUICK_LIB -DQT_CHARTS_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -DQT_SQL_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_QML_DEBUG -DQT_QUICK_LIB -DQT_CHARTS_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_SERIALPORT_LIB -DQT_SQL_LIB -DQT_BLUETOOTH_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++1y -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../../Ble_Nozzle -I. -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtQuick -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCharts -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtWidgets -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtGui -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtNetwork -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtSerialPort -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtSql -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../../Ble_Nozzle -I. -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtQuick -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCharts -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtWidgets -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtGui -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtNetwork -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtSerialPort -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtSql -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtBluetooth -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I../../../../PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/linux-g++
 QMAKE         = /media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -39,8 +39,8 @@ COMPRESS      = gzip -9f
 DISTNAME      = NozzleBle1.0.0
 DISTDIR = /media/khomin/D/PROJECTs/Qt/Ble_Nozzle/build/.tmp/NozzleBle1.0.0
 LINK          = g++
-LFLAGS        = -Wl,-rpath,/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/lib -lQt5Quick -lQt5Charts -lQt5Widgets -lQt5Gui -lQt5Qml -lQt5Network -lQt5SerialPort -lQt5Sql -lQt5Core -lGL -lpthread   
+LFLAGS        = -Wl,-rpath,/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/lib -Wl,-rpath-link,/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/lib
+LIBS          = $(SUBLIBS) -L/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/lib -lQt5Quick -lQt5Charts -lQt5Widgets -lQt5Gui -lQt5Qml -lQt5Network -lQt5SerialPort -lQt5Sql -lQt5Bluetooth -lQt5Core -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -52,9 +52,29 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../app.cpp qrc_resource.cpp
+SOURCES       = ../app.cpp \
+		../application.cpp \
+		../source/bluetooth/bleModel.cpp \
+		../source/bluetooth/bleModelItem.cpp \
+		../source/bluetooth/animal.cpp \
+		../source/bluetooth/AnimalModel.cpp qrc_resource.cpp \
+		moc_application.cpp \
+		moc_bleModel.cpp \
+		moc_bleModelItem.cpp \
+		moc_animal.cpp \
+		moc_AnimalModel.cpp
 OBJECTS       = app.o \
-		qrc_resource.o
+		application.o \
+		bleModel.o \
+		bleModelItem.o \
+		animal.o \
+		AnimalModel.o \
+		qrc_resource.o \
+		moc_application.o \
+		moc_bleModel.o \
+		moc_bleModelItem.o \
+		moc_animal.o \
+		moc_AnimalModel.o
 DIST          = /media/khomin/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features/spec_pre.prf \
 		/media/khomin/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/common/unix.conf \
 		/media/khomin/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/common/linux.conf \
@@ -247,7 +267,16 @@ DIST          = /media/khomin/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features/spec_p
 		/media/khomin/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features/exceptions.prf \
 		/media/khomin/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features/yacc.prf \
 		/media/khomin/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features/lex.prf \
-		../../scanner.pro  ../app.cpp
+		../../scanner.pro ../application.h \
+		../source/bluetooth/bleModel.h \
+		../source/bluetooth/bleModelItem.h \
+		../source/bluetooth/animal.h \
+		../source/bluetooth/AnimalModel.h ../app.cpp \
+		../application.cpp \
+		../source/bluetooth/bleModel.cpp \
+		../source/bluetooth/bleModelItem.cpp \
+		../source/bluetooth/animal.cpp \
+		../source/bluetooth/AnimalModel.cpp
 QMAKE_TARGET  = NozzleBle
 DESTDIR       = 
 TARGET        = NozzleBle
@@ -461,6 +490,7 @@ Makefile: ../scanner.pro ../../../../PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features
 		../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5Network.prl \
 		../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5SerialPort.prl \
 		../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5Sql.prl \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5Bluetooth.prl \
 		../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5Core.prl
 	$(QMAKE) -o Makefile ../scanner.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 ../../../../PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features/spec_pre.prf:
@@ -665,6 +695,7 @@ Makefile: ../scanner.pro ../../../../PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features
 ../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5Network.prl:
 ../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5SerialPort.prl:
 ../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5Sql.prl:
+../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5Bluetooth.prl:
 ../../../../PROGRAMMs/qt/5.12.1/gcc_64/lib/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../scanner.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -682,7 +713,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../resource.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../app.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../application.h ../source/bluetooth/bleModel.h ../source/bluetooth/bleModelItem.h ../source/bluetooth/animal.h ../source/bluetooth/AnimalModel.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../app.cpp ../application.cpp ../source/bluetooth/bleModel.cpp ../source/bluetooth/bleModelItem.cpp ../source/bluetooth/animal.cpp ../source/bluetooth/AnimalModel.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -734,8 +766,303 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../../PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++1y -Wall -W -dM -E -o moc_predefs.h ../../../../PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: moc_application.cpp moc_bleModel.cpp moc_bleModelItem.cpp moc_animal.cpp moc_AnimalModel.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) moc_application.cpp moc_bleModel.cpp moc_bleModelItem.cpp moc_animal.cpp moc_AnimalModel.cpp
+moc_application.cpp: ../application.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		../source/bluetooth/bleModel.h \
+		moc_predefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/bin/moc
+	/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /media/khomin/D/PROJECTs/Qt/Ble_Nozzle/build/moc_predefs.h -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/media/khomin/D/PROJECTs/Qt/Ble_Nozzle -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQuick -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCharts -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtWidgets -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtGui -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtNetwork -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSerialPort -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSql -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtBluetooth -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../application.h -o moc_application.cpp
+
+moc_bleModel.cpp: ../source/bluetooth/bleModel.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		moc_predefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/bin/moc
+	/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /media/khomin/D/PROJECTs/Qt/Ble_Nozzle/build/moc_predefs.h -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/media/khomin/D/PROJECTs/Qt/Ble_Nozzle -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQuick -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCharts -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtWidgets -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtGui -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtNetwork -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSerialPort -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSql -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtBluetooth -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../source/bluetooth/bleModel.h -o moc_bleModel.cpp
+
+moc_bleModelItem.cpp: ../source/bluetooth/bleModelItem.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		moc_predefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/bin/moc
+	/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /media/khomin/D/PROJECTs/Qt/Ble_Nozzle/build/moc_predefs.h -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/media/khomin/D/PROJECTs/Qt/Ble_Nozzle -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQuick -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCharts -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtWidgets -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtGui -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtNetwork -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSerialPort -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSql -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtBluetooth -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../source/bluetooth/bleModelItem.h -o moc_bleModelItem.cpp
+
+moc_animal.cpp: ../source/bluetooth/animal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		moc_predefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/bin/moc
+	/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /media/khomin/D/PROJECTs/Qt/Ble_Nozzle/build/moc_predefs.h -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/media/khomin/D/PROJECTs/Qt/Ble_Nozzle -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQuick -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCharts -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtWidgets -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtGui -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtNetwork -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSerialPort -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSql -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtBluetooth -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../source/bluetooth/animal.h -o moc_animal.cpp
+
+moc_AnimalModel.cpp: ../source/bluetooth/AnimalModel.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QAbstractListModel \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvariant.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qdebug.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhash.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtextstream.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiodevice.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlocale.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qshareddata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvector.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpoint.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qset.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../source/bluetooth/animal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QHash \
+		moc_predefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/bin/moc
+	/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/bin/moc $(DEFINES) --include /media/khomin/D/PROJECTs/Qt/Ble_Nozzle/build/moc_predefs.h -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/mkspecs/linux-g++ -I/media/khomin/D/PROJECTs/Qt/Ble_Nozzle -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQuick -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCharts -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtWidgets -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtGui -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtNetwork -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSerialPort -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtSql -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtBluetooth -I/media/khomin/D/PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../source/bluetooth/AnimalModel.h -o moc_AnimalModel.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
@@ -748,7 +1075,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean 
 
 ####### Compile
 
@@ -912,11 +1239,318 @@ app.o: ../app.cpp ../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtWidgets/QAppl
 		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml/QQmlEngine \
 		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtGui/QGuiApplication \
 		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml/QQmlContext \
-		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml/qqmlcontext.h
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtQml/qqmlcontext.h \
+		../application.h \
+		../source/bluetooth/bleModel.h \
+		../source/bluetooth/AnimalModel.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QAbstractListModel \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../source/bluetooth/animal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QHash
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o app.o ../app.cpp
+
+application.o: ../application.cpp ../application.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		../source/bluetooth/bleModel.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o application.o ../application.cpp
+
+bleModel.o: ../source/bluetooth/bleModel.cpp ../source/bluetooth/bleModel.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		../source/bluetooth/bleModelItem.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bleModel.o ../source/bluetooth/bleModel.cpp
+
+bleModelItem.o: ../source/bluetooth/bleModelItem.cpp ../source/bluetooth/bleModelItem.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bleModelItem.o ../source/bluetooth/bleModelItem.cpp
+
+animal.o: ../source/bluetooth/animal.cpp ../source/bluetooth/animal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o animal.o ../source/bluetooth/animal.cpp
+
+AnimalModel.o: ../source/bluetooth/AnimalModel.cpp ../source/bluetooth/AnimalModel.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QObject \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnamespace.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qconfig.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtcore-config.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsysinfo.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlogging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qflags.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmutex.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qnumeric.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qversiontagging.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstring.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qchar.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qrefcount.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qarraydata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringliteral.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringview.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qalgorithms.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiterator.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpair.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringlist.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qregexp.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcoreevent.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmetatype.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qobject_impl.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QAbstractListModel \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvariant.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qmap.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qdebug.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qhash.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qtextstream.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qiodevice.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qlocale.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qshareddata.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qvector.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qpoint.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qset.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../source/bluetooth/animal.h \
+		../../../../PROGRAMMs/qt/5.12.1/gcc_64/include/QtCore/QHash
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AnimalModel.o ../source/bluetooth/AnimalModel.cpp
 
 qrc_resource.o: qrc_resource.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resource.o qrc_resource.cpp
+
+moc_application.o: moc_application.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_application.o moc_application.cpp
+
+moc_bleModel.o: moc_bleModel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_bleModel.o moc_bleModel.cpp
+
+moc_bleModelItem.o: moc_bleModelItem.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_bleModelItem.o moc_bleModelItem.cpp
+
+moc_animal.o: moc_animal.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_animal.o moc_animal.cpp
+
+moc_AnimalModel.o: moc_AnimalModel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_AnimalModel.o moc_AnimalModel.cpp
 
 ####### Install
 

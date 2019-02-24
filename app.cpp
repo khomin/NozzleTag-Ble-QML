@@ -6,8 +6,13 @@
 #include <QtQml/QQmlEngine>
 #include <QtGui/QGuiApplication>
 #include <QQmlContext>
-//#include "./view/viewController.h"
+#include "application.h"
 //#include "view/radialbar.h"
+
+#include "source/bluetooth/AnimalModel.h"
+#include "source/bluetooth/animal.h"
+
+#include <QTimer>
 
 int main(int argc, char *argv[])
 {
@@ -23,12 +28,22 @@ int main(int argc, char *argv[])
     QObject::connect(viewer.engine(), &QQmlEngine::quit, &viewer, &QWindow::close);
 
 //    Model *interfaceModel = new Model();
-//    ViewController *viewController = new ViewController(interfaceModel);
+    Application *application = new Application();
 
-//    viewer.rootContext()->setContextProperty("viewController", viewController);
+    viewer.rootContext()->setContextProperty("application", application);
+
 //    qmlRegisterType<RadialBar>("CustomControls", 1, 0, "RadialBar");
 
-//    viewer.rootContext()->setContextProperty("programmModel", interfaceModel);
+//    viewer.rootContext()->setContextProperty("myModel", application->getBleModel());
+
+//    AnimalModel model;
+//    viewer.rootContext()->setContextProperty("myModel", &model);
+//    model.addAnimal(new Animal("Wolf", "Medium"));
+
+//    QTimer::singleShot(1000, [&] {
+//        model.addAnimal(new Animal("Polar bear", "Large"));
+//        model.addAnimal(new Animal("Quoll", "Small"));
+//    });
 
     viewer.setSource(QUrl("qrc:/qml/qml/app.qml"));
 

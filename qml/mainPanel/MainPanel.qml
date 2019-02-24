@@ -11,29 +11,37 @@ import "qrc:/qml/qml/miscElems/"
 
 Item {
     id: top
-    property BluetoothService currentService
+//    property BluetoothService currentService
 
-    BluetoothDiscoveryModel {
-        id: btModel
-        running: true
-        discoveryMode: BluetoothDiscoveryModel.DeviceDiscovery
-        onDiscoveryModeChanged: console.log("Discovery mode: " + discoveryMode)
-        onServiceDiscovered: console.log("Found new service " + service.deviceAddress + " " + service.deviceName + " " + service.serviceName);
-        onDeviceDiscovered: console.log("New device: " + device)
-        onErrorChanged: {
-            switch (btModel.error) {
-            case BluetoothDiscoveryModel.PoweredOffError:
-                console.log("Error: Bluetooth device not turned on"); break;
-            case BluetoothDiscoveryModel.InputOutputError:
-                console.log("Error: Bluetooth I/O Error"); break;
-            case BluetoothDiscoveryModel.InvalidBluetoothAdapterError:
-                console.log("Error: Invalid Bluetooth Adapter Error"); break;
-            case BluetoothDiscoveryModel.NoError:
-                break;
-            default:
-                console.log("Error: Unknown Error"); break;
-            }
-        }
+//    BluetoothDiscoveryModel {
+//        id: bleModel
+//        running: true
+//        discoveryMode: BluetoothDiscoveryModel.DeviceDiscovery
+//        onDiscoveryModeChanged: console.log("Discovery mode: " + discoveryMode)
+//        onServiceDiscovered: console.log("Found new service " + service.deviceAddress + " " + service.deviceName + " " + service.serviceName);
+//        onDeviceDiscovered: console.log("New device: " + device)
+//        onErrorChanged: {
+//            switch (bleModel.error) {
+//            case BluetoothDiscoveryModel.PoweredOffError:
+//                console.log("Error: Bluetooth device not turned on"); break;
+//            case BluetoothDiscoveryModel.InputOutputError:
+//                console.log("Error: Bluetooth I/O Error"); break;
+//            case BluetoothDiscoveryModel.InvalidBluetoothAdapterError:
+//                console.log("Error: Invalid Bluetooth Adapter Error"); break;
+//            case BluetoothDiscoveryModel.NoError:
+//                break;
+//            default:
+//                console.log("Error: Unknown Error"); break;
+//            }
+//        }
+//    }
+
+
+    Connections {
+        target:application
+        onBleScanFinished: {
+
+       }
     }
 
     Rectangle {
@@ -61,10 +69,9 @@ Item {
                     id:startScanning
                     widthBody: panelRectangle.width / 2 - 10
                     caption: "Start scanning"
-                    enabled: !btModel.running
+                    enabled: !application.getScanningIsRunning()
                     onClicked: {
-                        btModel.running = true
-                        btModel.discoveryMode = BluetoothDiscoveryModel.DeviceDiscovery
+                        application.bleStartScann();
                     }
                 }
                 Rectangle {width: 5; height: 5}
@@ -72,10 +79,9 @@ Item {
                     id:stopScanning
                     widthBody: panelRectangle.width / 2 - 15
                     caption: "Stop"
-                    enabled: btModel.running
+                    enabled: application.getScanningIsRunning()
                     onClicked: {
-                        btModel.running = false
-                        btModel.discoveryMode = BluetoothDiscoveryModel.DeviceDiscovery
+//                        bleModel.running = false
                     }
                 }
             }
@@ -85,7 +91,7 @@ Item {
                 height: panelRectangle.height - buttonStanRow.height - busyRectangle.height - 15
                 clip: true
 
-                model: btModel
+                model: myModel
                 delegate: Rectangle {
                     id: btDelegate
                     width: parent.width
@@ -107,31 +113,20 @@ Item {
                         anchors.leftMargin: 5
                         Text {
                             id: bttext
-                            text: deviceName ? deviceName : name
+                            text: type
                             font.family: "FreeSerif"
                             font.pointSize: 12
+                            color: isCurrent ? "#ff5c00" : "black";
                         }
 
                         Text {
                             id: details
-                            function get_details(s) {
-                                if (btModel.discoveryMode == BluetoothDiscoveryModel.DeviceDiscovery) {
-                                    //We are doing a device discovery
-                                    var str = remoteAddress;
-                                    return str;
-                                } else {
-                                    var str = "Address: " + s.deviceAddress;
-                                    if (s.serviceName) { str += "<br>Service: " + s.serviceName; }
-                                    if (s.serviceDescription) { str += "<br>Description: " + s.serviceDescription; }
-                                    if (s.serviceProtocol) { str += "<br>Protocol: " + s.serviceProtocol; }
-                                    return str;
-                                }
-                            }
                             visible: opacity !== 0
                             opacity: 1
-                            text: get_details(service)
+                            text: devAddress
                             font.family: "FreeSerif"
                             font.pointSize: 14
+                            color: isCurrent ? "#ff5c00" : "black";
                             Behavior on opacity {
                                 NumberAnimation { duration: 200}
                             }
@@ -141,7 +136,10 @@ Item {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: btDelegate.expended = !btDelegate.expended
+                        onClicked: {
+                            application.getScanningIsRunning()
+                           isActive = true;
+                        }
                     }
                 }
                 focus: true
@@ -152,14 +150,13 @@ Item {
                 height: 50
                 radius: 5
                 color: "#1c56f3"
-                visible: btModel.running
+                visible: application.getScanningIsRunning()
                 Text {
                     id: text
                     text: "Scanning"
                     font.bold: true
                     font.pointSize: 20
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
+                    anchors.horizontalCenter: parent.horizontalCenter                }
                 SequentialAnimation on color {
                     id: busyThrobber
                     ColorAnimation { easing.type: Easing.InOutSine; from: "#1c56f3"; to: "white"; duration: 1000; }
@@ -170,37 +167,3 @@ Item {
         }
     }
 }
-
-
-//        Row {
-//            id: buttonGroup
-//            property var activeButton: devButton
-
-//            anchors.bottom: parent.bottom
-//            anchors.horizontalCenter: parent.horizontalCenter
-//            anchors.bottomMargin: 5
-//            spacing: 10
-
-//            Button {
-//                id: fdButton
-//                width: top.width/3*0.9
-//                //mdButton has longest text
-//                height: mdButton.height
-//                text: "Full Discovery"
-//                onClicked: btModel.discoveryMode = BluetoothDiscoveryModel.FullServiceDiscovery
-//            }
-//            Button {
-//                id: mdButton
-//                width: top.width/3*0.9
-//                text: "Minimal Discovery"
-//                onClicked: btModel.discoveryMode = BluetoothDiscoveryModel.MinimalServiceDiscovery
-//            }
-//            Button {
-//                id: devButton
-//                width: top.width/3*0.9
-//                //mdButton has longest text
-//                height: mdButton.height
-//                text: "Device Discovery"
-//                onClicked: btModel.discoveryMode = BluetoothDiscoveryModel.DeviceDiscovery
-//            }
-//        }
