@@ -113,7 +113,7 @@ Item {
                         anchors.leftMargin: 5
                         Text {
                             id: bttext
-                            text: type
+                            text: devName
                             font.family: "FreeSerif"
                             font.pointSize: 12
                             color: isCurrent ? "#ff5c00" : "black";
@@ -123,7 +123,7 @@ Item {
                             id: details
                             visible: opacity !== 0
                             opacity: 1
-                            text: devAddress
+                            text: devAddr
                             font.family: "FreeSerif"
                             font.pointSize: 14
                             color: isCurrent ? "#ff5c00" : "black";

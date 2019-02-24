@@ -2,18 +2,30 @@
 #define BleModel_H
 
 #include <QObject>
+#include "source/bluetooth/bleModelItem.h"
+#include <QAbstractListModel>
 
 class BleModelItem;
 
-class BleModel : public QObject
+class BleModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit BleModel(QObject *parent = 0);
+    BleModel(QObject *parent = nullptr);
 
-    Q_PROPERTY(QList<QObject*> tree READ treeAsQObjects NOTIFY treeChanged)
-    const QList<BleModelItem*> &tree() const;
-    const QList<QObject*> treeAsQObjects() const;
+    enum BleRoles {
+        RoleName = Qt::UserRole + 1,
+        RoleAddr
+    };
+
+    void addBle(const BleModelItem * bleItem);
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+protected:
+    QHash<int, QByteArray> roleNames() const;
+private:
+    QList<BleModelItem*> bleDevices;
 
 //    void addConnection(QString name);
 //    void removeConnection(int index);
@@ -33,13 +45,13 @@ public:
 
 //    void setIoStatus(int ioIndex, int status);
 
-signals:
-    void treeChanged();
+//signals:
+//    void treeChanged();
 //    void currentIndexIsChangedDevice(int interfaceIndex, int deviceIndex);
 //    void currentIndexIsChangedInteface(int index);
 
 
-private slots:
+//private slots:
 
 //    BleModelItem *createTreeItem(QString nameInterface);
 //    BleModelItem *createTreeSubItem(QString nameDevice);
@@ -49,8 +61,8 @@ private slots:
 //    void disconnectaFullTree();
 //    void connectFullTree();
 
-private:
-    QList<BleModelItem*> m_tree;
+//private:
+//    QList<BleModelItem*> m_tree;
 
 //    typedef struct {
 //        int ioIndex;

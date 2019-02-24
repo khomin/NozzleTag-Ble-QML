@@ -2,6 +2,7 @@
 #define APPLICATION_H
 
 #include <QObject>
+#include "./source/bluetooth/ble.h"
 #include "./source/bluetooth/bleModel.h"
 
 class Application : public QObject
@@ -21,8 +22,7 @@ signals:
 public slots:
 
 private:
-    BleModel *bleDeviceModel;
-
+    BleDevice* bleDevice;
 };
 
 #endif // APPLICATION_H

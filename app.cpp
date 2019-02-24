@@ -9,9 +9,6 @@
 #include "application.h"
 //#include "view/radialbar.h"
 
-#include "source/bluetooth/AnimalModel.h"
-#include "source/bluetooth/animal.h"
-
 #include <QTimer>
 
 int main(int argc, char *argv[])
@@ -34,7 +31,7 @@ int main(int argc, char *argv[])
 
 //    qmlRegisterType<RadialBar>("CustomControls", 1, 0, "RadialBar");
 
-//    viewer.rootContext()->setContextProperty("myModel", application->getBleModel());
+    viewer.rootContext()->setContextProperty("myModel", application->getBleModel());
 
 //    AnimalModel model;
 //    viewer.rootContext()->setContextProperty("myModel", &model);

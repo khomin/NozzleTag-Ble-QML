@@ -4,9 +4,7 @@
     </qresource>
     <qresource prefix="/qml">
         <file>qml/app.qml</file>
-        <file>qml/mainPanel/MainMenuBar.qml</file>
         <file>qml/mainPanel/MainPanel.qml</file>
-        <file>qml/mainPanel/ProjectDevicePanel.qml</file>
         <file>qml/mainPanel/ProjectMainStack.qml</file>
         <file>qml/mainPanel/Session.qml</file>
         <file>qml/mainPanel/Settings.qml</file>

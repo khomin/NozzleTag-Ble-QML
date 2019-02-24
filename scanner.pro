@@ -12,10 +12,9 @@ CONFIG += c++14
 SOURCES += \
     app.cpp \
     application.cpp \
-    source/bluetooth/bleModel.cpp \
     source/bluetooth/bleModelItem.cpp \
-    source/bluetooth/animal.cpp \
-    source/bluetooth/AnimalModel.cpp
+    source/bluetooth/bleModel.cpp \
+    source/bluetooth/ble.cpp
 
 TARGET = NozzleBle
 TEMPLATE = app
@@ -32,5 +31,5 @@ HEADERS += \
     application.h \
     source/bluetooth/bleModel.h \
     source/bluetooth/bleModelItem.h \
-    source/bluetooth/animal.h \
-    source/bluetooth/AnimalModel.h
+    source/bluetooth/bleModel.h \
+    source/bluetooth/ble.h
