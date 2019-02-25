@@ -13,7 +13,7 @@ TabButton {
     background: Rectangle {
         height: 35
         width: widthBody
-        radius: 25
+        radius: 10
         color: tabButtonUp.checked ? "#a3ff7b" : "#ffffff"
         border.color: "#e9eff4"
         border.width: 2

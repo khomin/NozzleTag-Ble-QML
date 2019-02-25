@@ -2,7 +2,7 @@
 #define APPLICATION_H
 
 #include <QObject>
-#include "./source/bluetooth/ble.h"
+#include "./source/bluetooth/BleApi.h"
 #include "./source/bluetooth/bleModel.h"
 
 class Application : public QObject
@@ -18,11 +18,11 @@ public:
 
 signals:
     void bleScanFinished();
-
+    void bleServieCharactresticsUpdated(QString serviceName, QString uuid, QString value);
 public slots:
 
 private:
-    BleDevice* bleDevice;
+    BleApi* bleApi;
 };
 
 #endif // APPLICATION_H

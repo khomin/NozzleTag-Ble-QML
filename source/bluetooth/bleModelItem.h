@@ -21,6 +21,7 @@ private:
     QString m_devName;
     QString m_devAddr;
     int m_rssi;
+    QList<QObject*> m_services;
 };
 
 #endif // BleModelItem_H
