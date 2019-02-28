@@ -48,10 +48,10 @@
 **
 ****************************************************************************/
 
-#ifndef DEVICES_H
-#define DEVICES_H
+#ifndef BLEAPI_H
+#define BLEAPI_H
 
-#include <qbluetoothlocaldevice.h>
+
 #include <QObject>
 #include <QVariant>
 #include <QList>
@@ -59,24 +59,25 @@
 #include <QBluetoothDeviceDiscoveryAgent>
 #include <QLowEnergyController>
 #include <QBluetoothServiceInfo>
+
+#include "bleModel.h"
+#include "bleDevice.h"
 #include "deviceinfo.h"
 #include "serviceinfo.h"
 #include "characteristicinfo.h"
-#include "bleModel.h"
 
 QT_FORWARD_DECLARE_CLASS (QBluetoothDeviceInfo)
 QT_FORWARD_DECLARE_CLASS (QBluetoothServiceInfo)
 
-class Devices: public QObject
+class BleApi: public QObject
 {
     Q_OBJECT
 public:
-    Devices(BleModel* bleModel);
-    ~Devices();
+    BleApi(BleModel* bleModel);
+    ~BleApi();
     QVariant getDevices();
     QVariant getServices();
     QVariant getCharacteristics();
-    QString getUpdate();
     bool state();
     bool hasControllerError() const;
 
@@ -117,19 +118,16 @@ signals:
     void scanFinished();
 
 private:
-    void setUpdate(const QString &message);
-    QBluetoothDeviceDiscoveryAgent *discoveryAgent;
+    bool connected = false;
+    BleModel* bleModel;
+    QBluetoothDeviceDiscoveryAgent* discoveryAgent;
     DeviceInfo currentDevice;
-    QList<QObject *> devices;
     QList<QObject *> m_services;
     QList<QObject *> m_characteristics;
     QString m_previousAddress;
-    QString m_message;
-    bool connected = false;
-    QLowEnergyController *controller = nullptr;
+    QLowEnergyController* controller = nullptr;
     bool m_deviceScanState = false;
     bool randomAddress = false;
-    BleModel* bleModel;
 };
 
 #endif // DEVICES_H

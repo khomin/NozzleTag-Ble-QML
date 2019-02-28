@@ -5,7 +5,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Window 2.2
-import "qrc:/qml/qml/mainPanel"
+import "qrc:/qml/qml/leftPanel"
 import "qrc:/qml/qml/PropertyPanel"
 
 ApplicationWindow {
@@ -14,41 +14,6 @@ ApplicationWindow {
 
     visible: true
     title: "NozzleTag desktop configure"
-
-    MessageDialog {
-        id: aboutDialog
-        icon: StandardIcon.Information
-        title: qsTr("About")
-        text: "Bla Bla message"
-        informativeText: qsTr("Bla Bla message")
-    }
-
-    Action {
-        id: copyAction
-        text: qsTr("Copy")
-        shortcut: StandardKey.Copy
-        iconName: "edit-copy"
-        enabled: (!!activeFocusItem && !!activeFocusItem["copy"])
-        onTriggered: activeFocusItem.copy()
-    }
-
-    Action {
-        id: cutAction
-        text: qsTr("Cut")
-        shortcut: StandardKey.Cut
-        iconName: "edit-cut"
-        enabled: (!!activeFocusItem && !!activeFocusItem["cut"])
-        onTriggered: activeFocusItem.cut()
-    }
-
-    Action {
-        id: pasteAction
-        text: qsTr("Paste")
-        shortcut: StandardKey.Paste
-        iconName: "edit-paste"
-        enabled: (!!activeFocusItem && !!activeFocusItem["paste"])
-        onTriggered: activeFocusItem.paste()
-    }
 
     menuBar: MenuBar {
         Menu {
@@ -171,15 +136,50 @@ ApplicationWindow {
 
     Row {
         anchors.fill: parent
-        MainPanel {
-            id: mainPanel
+        LeftPanel {
+            id: leftPanel
             width: parent.width / 3
             height: parent.height
         }
         PropertyPanel {
             id:propertyPanel
-            width: parent.width - mainPanel.width
+            width: parent.width - leftPanel.width
             height: parent.height
         }
+    }
+
+    MessageDialog {
+        id: aboutDialog
+        icon: StandardIcon.Information
+        title: qsTr("About")
+        text: "Bla Bla message"
+        informativeText: qsTr("Bla Bla message")
+    }
+
+    Action {
+        id: copyAction
+        text: qsTr("Copy")
+        shortcut: StandardKey.Copy
+        iconName: "edit-copy"
+        enabled: (!!activeFocusItem && !!activeFocusItem["copy"])
+        onTriggered: activeFocusItem.copy()
+    }
+
+    Action {
+        id: cutAction
+        text: qsTr("Cut")
+        shortcut: StandardKey.Cut
+        iconName: "edit-cut"
+        enabled: (!!activeFocusItem && !!activeFocusItem["cut"])
+        onTriggered: activeFocusItem.cut()
+    }
+
+    Action {
+        id: pasteAction
+        text: qsTr("Paste")
+        shortcut: StandardKey.Paste
+        iconName: "edit-paste"
+        enabled: (!!activeFocusItem && !!activeFocusItem["paste"])
+        onTriggered: activeFocusItem.paste()
     }
 }

@@ -1,21 +1,22 @@
 #include "application.h"
 
 Application::Application(QObject *parent) : QObject(parent) {
-    bleApi = new BleApi();
-    connect(bleApi, &BleApi::scanStarted, this, &Application::bleScanStarted);
-    connect(bleApi, &BleApi::scanFinishedSignal, this, &Application::bleScanFinished);
-    connect(bleApi, &BleApi::bleServieCharactresticsUpdated, this, &Application::bleServieCharactresticsUpdated);
+    bleModel = new BleModel();
+    ble = new Ble(bleModel);
+
+    connect(ble, &Ble::scanStarted, this, &Application::bleScanStarted);
+    connect(ble, &Ble::scanFinishedSignal, this, &Application::bleScanFinished);
+    connect(ble, &Ble::bleServieCharactresticsUpdated, this, &Application::bleServieCharactresticsUpdated);
 }
 
 void Application::bleStartScann() {
-    emit bleClearDeviceData();
-    bleApi->startScan();
+    ble->startScan();
 }
 
 void Application::bleStopScann() {
-//    bleDevice->sta();
+    ble->stopScan();
 }
 
 BleModel* Application::getBleModel() {
-    return bleApi->getBleModel();
+    return bleModel;
 }

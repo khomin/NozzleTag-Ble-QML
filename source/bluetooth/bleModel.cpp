@@ -1,13 +1,19 @@
 #include "bleModel.h"
 
 BleModel::BleModel(QObject *parent) {
-
+    roleNameMapping[RoleName] = "devName";
+    roleNameMapping[RoleAddr] = "devAddr";
+    roleNameMapping[RoleRssi] = "devRsii";
 }
 
-void BleModel::addBle(const BleModelItem *bleItem) {
+void BleModel::appendBleDevice(const BleModelItem *bleItem) {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    bleDevices.push_back((BleModelItem*)bleItem);
+    bleDevices.push_back((BleModelItem*) std::move(bleItem));
     endInsertRows();
+}
+
+int BleModel::getCountDevices() {
+    return bleDevices.count();
 }
 
 int BleModel::rowCount(const QModelIndex & parent) const {
@@ -15,11 +21,19 @@ int BleModel::rowCount(const QModelIndex & parent) const {
     return bleDevices.count();
 }
 
-QVariant BleModel::data(const QModelIndex & index, int role) const {
+void BleModel::clearAll() {
+    bleDevices.clear();
+}
+
+QList<BleModelItem*>& BleModel::getBleDevices() {
+    return bleDevices;
+}
+
+QVariant BleModel::data(const QModelIndex &index, int role) const {
     if (index.row() < 0 || index.row() >= bleDevices.count())
         return QVariant();
 
-    const BleModelItem* ble_dev= bleDevices[index.row()];
+    const BleModelItem* ble_dev = bleDevices[index.row()];
     if (role == RoleName)
         return ble_dev->getDevName();
     else if (role == RoleAddr)
@@ -30,9 +44,5 @@ QVariant BleModel::data(const QModelIndex & index, int role) const {
 }
 
 QHash<int, QByteArray> BleModel::roleNames() const {
-    QHash<int, QByteArray> roles;
-    roles[RoleName] = "devName";
-    roles[RoleAddr] = "devAddr";
-    roles[RoleRssi] = "devRssi";
-    return roles;
+    return roleNameMapping;
 }

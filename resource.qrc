@@ -9,8 +9,6 @@
         <file>qml/miscElems/Button.qml</file>
         <file>qml/miscElems/ButtonRound.qml</file>
         <file>qml/miscElems/TabButtonUp.qml</file>
-    </qresource>
-    <qresource prefix="/">
-        <file>qml/leftPanel/leftPanel.qml</file>
+        <file>qml/leftPanel/LeftPanel.qml</file>
     </qresource>
 </RCC>

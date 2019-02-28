@@ -19,14 +19,23 @@ public:
         RoleRssi
     };
 
-    void addBle(const BleModelItem * bleItem);
+    void appendBleDevice(const BleModelItem * bleItem);
+
+    int getCountDevices();
+
+    QList<BleModelItem*>& getBleDevices();
+
+    void clearAll();
+
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-protected:
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const override;
+
 private:
     QList<BleModelItem*> bleDevices;
+    QHash<int, QByteArray> roleNameMapping;
 };
 
 #endif // BleModel_H

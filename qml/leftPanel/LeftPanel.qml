@@ -75,7 +75,7 @@ Item {
                 height: panelRectangle.height - buttonStanRow.height - busyRectangle.height - 15
                 clip: true
 
-                model: myModel
+                model: bleDeviceModel
                 delegate: Rectangle {
                     id: btDelegate
                     width: parent.width
@@ -97,7 +97,7 @@ Item {
                         anchors.leftMargin: 5
                         Text {
                             id: bttext
-                            text: devName + " " + devRssi
+                            text: model.devName + " " + model.devRssi
                             font.family: "FreeSerif"
                             font.pointSize: 12
                             color: "#ff5c00"// : "black";
@@ -107,7 +107,7 @@ Item {
                             id: details
                             visible: opacity !== 0
                             opacity: 1
-                            text: devAddr
+                            text: model.devAddr
                             font.family: "FreeSerif"
                             font.pointSize: 14
                             color: "#ff5c00" //: "black";

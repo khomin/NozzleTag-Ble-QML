@@ -49,7 +49,7 @@
 **
 ****************************************************************************/
 
-#include "devices.h"
+#include "bleApi.h"
 
 #include <qbluetoothaddress.h>
 #include <qbluetoothdevicediscoveryagent.h>
@@ -62,108 +62,87 @@
 #include <QMetaEnum>
 #include <QTimer>
 
-Devices::Devices(BleModel* bleModel)
-{
-    //! [les-devicediscovery-1]
+BleApi::BleApi(BleModel* bleModel) {
+    this->bleModel = bleModel;
+
     discoveryAgent = new QBluetoothDeviceDiscoveryAgent();
     discoveryAgent->setLowEnergyDiscoveryTimeout(5000);
     connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
-            this, &Devices::addDevice);
+            this, &BleApi::addDevice);
     connect(discoveryAgent, QOverload<QBluetoothDeviceDiscoveryAgent::Error>::of(&QBluetoothDeviceDiscoveryAgent::error),
-            this, &Devices::deviceScanError);
-    connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &Devices::deviceScanFinished);
-    //! [les-devicediscovery-1]
-
-    this->bleModel = bleModel;
-
-    setUpdate("Search");
+            this, &BleApi::deviceScanError);
+    connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &BleApi::deviceScanFinished);
 }
 
-Devices::~Devices()
-{
+BleApi::~BleApi() {
     delete discoveryAgent;
     delete controller;
-    qDeleteAll(devices);
+//    qDeleteAll(devices);
     qDeleteAll(m_services);
     qDeleteAll(m_characteristics);
-    devices.clear();
+//    devices.clear();
     m_services.clear();
     m_characteristics.clear();
 }
 
-void Devices::startDeviceDiscovery()
-{
-    qDeleteAll(devices);
-    devices.clear();
+void BleApi::startDeviceDiscovery() {
+//    qDeleteAll(devices);
+    bleModel->clearAll();
     emit devicesUpdated();
-    setUpdate("Scan reset");
+    qDebug() << "Scan reset";
 
-    setUpdate("Scanning for devices ...");
-    //! [les-devicediscovery-2]
+    qDebug() << "Scanning for devices ...";
     discoveryAgent->start(QBluetoothDeviceDiscoveryAgent::LowEnergyMethod);
-    //! [les-devicediscovery-2]
 
     if (discoveryAgent->isActive()) {
         m_deviceScanState = true;
-        Q_EMIT stateChanged();
+        emit stateChanged();
     }
 }
 
-//! [les-devicediscovery-3]
-void Devices::addDevice(const QBluetoothDeviceInfo &info)
-{
+void BleApi::addDevice(const QBluetoothDeviceInfo &info) {
     if (info.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration) {
-        auto d = new DeviceInfo(info);
-        devices.append(d);
-        bleModel->addBle(new BleModelItem(info.name(), info.address().toString(), info.rssi()));
-        setUpdate("Last device added: " + d->getName());
+        auto pdev = new BleModelItem(info.name(),
+                                     info.address().toString(),
+                                     info.rssi(),
+                                     info,
+                                     new DeviceInfo(info));
+        bleModel->appendBleDevice(pdev);
+        qDebug() << "Last device added: " + pdev->getDevName();
     }
 }
-//! [les-devicediscovery-3]
 
-void Devices::deviceScanFinished()
-{
+void BleApi::deviceScanFinished() {
     emit devicesUpdated();
     m_deviceScanState = false;
     emit stateChanged();
-    if (devices.isEmpty())
-        setUpdate("No Low Energy devices found...");
+    if (bleModel->getCountDevices() == 0)
+        qDebug() << "No Low Energy devices found...";
     else
-        setUpdate("Done! Scan Again!");
+        qDebug() << "Done! Scan Again!";
     emit scanFinished();
 }
 
-QVariant Devices::getDevices()
-{
-    return QVariant::fromValue(devices);
+QVariant BleApi::getDevices() {
+    return QVariant::fromValue(bleModel->getBleDevices());
 }
 
-QVariant Devices::getServices()
-{
+QVariant BleApi::getServices() {
     return QVariant::fromValue(m_services);
 }
 
-QVariant Devices::getCharacteristics()
-{
+QVariant BleApi::getCharacteristics() {
     return QVariant::fromValue(m_characteristics);
 }
 
-QString Devices::getUpdate()
-{
-    return m_message;
-}
-
-void Devices::scanServices(const QString &address)
-{
+void BleApi::scanServices(const QString &address) {
     // We need the current device for service discovery.
+    auto devices = bleModel->getBleDevices();
 
-    for (auto d: qAsConst(devices)) {
-        auto device = qobject_cast<DeviceInfo *>(d);
-        if (!device)
-            continue;
-
-        if (device->getAddress() == address )
-            currentDevice.setDevice(device->getDevice());
+    for (auto d: devices) {
+        if (d->getDevAddr() == address ) {
+            currentDevice.setDevice(d->getDevInfo());
+        }
     }
 
     if (!currentDevice.getDevice().isValid()) {
@@ -178,7 +157,7 @@ void Devices::scanServices(const QString &address)
     m_services.clear();
     emit servicesUpdated();
 
-    setUpdate("Back\n(Connecting to device...)");
+    qDebug() << "Back\n(Connecting to device...)";
 
     if (controller && m_previousAddress != currentDevice.getAddress()) {
         controller->disconnectFromDevice();
@@ -186,21 +165,20 @@ void Devices::scanServices(const QString &address)
         controller = nullptr;
     }
 
-    //! [les-controller-1]
     if (!controller) {
         // Connecting signals and slots for connecting to LE services.
         controller = QLowEnergyController::createCentral(currentDevice.getDevice());
         controller->disconnectFromDevice();
         connect(controller, &QLowEnergyController::connected,
-                this, &Devices::deviceConnected);
+                this, &BleApi::deviceConnected);
         connect(controller, QOverload<QLowEnergyController::Error>::of(&QLowEnergyController::error),
-                this, &Devices::errorReceived);
+                this, &BleApi::errorReceived);
         connect(controller, &QLowEnergyController::disconnected,
-                this, &Devices::deviceDisconnected);
+                this, &BleApi::deviceDisconnected);
         connect(controller, &QLowEnergyController::serviceDiscovered,
-                this, &Devices::addLowEnergyService);
+                this, &BleApi::addLowEnergyService);
         connect(controller, &QLowEnergyController::discoveryFinished,
-                this, &Devices::serviceScanDone);
+                this, &BleApi::serviceScanDone);
     }
 
     if (isRandomAddress())
@@ -208,41 +186,34 @@ void Devices::scanServices(const QString &address)
     else
         controller->setRemoteAddressType(QLowEnergyController::PublicAddress);
     controller->connectToDevice();
-    //! [les-controller-1]
 
     m_previousAddress = currentDevice.getAddress();
 }
 
-bool Devices::getScaningIsRunner() {
+bool BleApi::getScaningIsRunner() {
     return m_deviceScanState;
 }
 
-void Devices::addLowEnergyService(const QBluetoothUuid &serviceUuid)
-{
-    //! [les-service-1]
+void BleApi::addLowEnergyService(const QBluetoothUuid &serviceUuid) {
     QLowEnergyService *service = controller->createServiceObject(serviceUuid);
     if (!service) {
         qWarning() << "Cannot create service for uuid";
         return;
     }
-    //! [les-service-1]
     auto serv = new ServiceInfo(service);
     m_services.append(serv);
 
     emit servicesUpdated();
 }
-//! [les-service-1]
 
-void Devices::serviceScanDone()
-{
-    setUpdate("Back\n(Service scan done!)");
+void BleApi::serviceScanDone() {
+    qDebug() << "Back\n(Service scan done!)";
     // force UI in case we didn't find anything
     if (m_services.isEmpty())
         emit servicesUpdated();
 }
 
-void Devices::connectToService(const QString &uuid)
-{
+void BleApi::connectToService(const QString &uuid) {
     QLowEnergyService *service = nullptr;
     for (auto s: qAsConst(m_services)) {
         auto serviceInfo = qobject_cast<ServiceInfo *>(s);
@@ -263,12 +234,10 @@ void Devices::connectToService(const QString &uuid)
     emit characteristicsUpdated();
 
     if (service->state() == QLowEnergyService::DiscoveryRequired) {
-        //! [les-service-3]
         connect(service, &QLowEnergyService::stateChanged,
-                this, &Devices::serviceDetailsDiscovered);
+                this, &BleApi::serviceDetailsDiscovered);
         service->discoverDetails();
-        setUpdate("Back\n(Discovering details...)");
-        //! [les-service-3]
+        qDebug() << "Back\n(Discovering details...)";
         return;
     }
 
@@ -279,32 +248,21 @@ void Devices::connectToService(const QString &uuid)
         m_characteristics.append(cInfo);
     }
 
-    QTimer::singleShot(0, this, &Devices::characteristicsUpdated);
+    QTimer::singleShot(0, this, &BleApi::characteristicsUpdated);
 }
 
-void Devices::deviceConnected()
-{
-    setUpdate("Back\n(Discovering services...)");
+void BleApi::deviceConnected() {
+    qDebug() << "Back\n(Discovering services...)";
     connected = true;
-    //! [les-service-2]
     controller->discoverServices();
-    //! [les-service-2]
 }
 
-void Devices::errorReceived(QLowEnergyController::Error /*error*/)
-{
+void BleApi::errorReceived(QLowEnergyController::Error /*error*/) {
     qWarning() << "Error: " << controller->errorString();
-    setUpdate(QString("Back\n(%1)").arg(controller->errorString()));
+    qDebug() << QString("Back\n(%1)").arg(controller->errorString());
 }
 
-void Devices::setUpdate(const QString &message)
-{
-    m_message = message;
-    emit updateChanged();
-}
-
-void Devices::disconnectFromDevice()
-{
+void BleApi::disconnectFromDevice() {
     // UI always expects disconnect() signal when calling this signal
     // TODO what is really needed is to extend state() to a multi value
     // and thus allowing UI to keep track of controller progress in addition to
@@ -316,14 +274,12 @@ void Devices::disconnectFromDevice()
         deviceDisconnected();
 }
 
-void Devices::deviceDisconnected()
-{
-    qWarning() << "Disconnect from device";
+void BleApi::deviceDisconnected() {
+    qDebug() << "Disconnect from device";
     emit disconnected();
 }
 
-void Devices::serviceDetailsDiscovered(QLowEnergyService::ServiceState newState)
-{
+void BleApi::serviceDetailsDiscovered(QLowEnergyService::ServiceState newState) {
     if (newState != QLowEnergyService::ServiceDiscovered) {
         // do not hang in "Scanning for characteristics" mode forever
         // in case the service discovery failed
@@ -340,29 +296,24 @@ void Devices::serviceDetailsDiscovered(QLowEnergyService::ServiceState newState)
     if (!service)
         return;
 
-
-
-    //! [les-chars]
     const QList<QLowEnergyCharacteristic> chars = service->characteristics();
     for (const QLowEnergyCharacteristic &ch : chars) {
         auto cInfo = new CharacteristicInfo(ch);
         m_characteristics.append(cInfo);
     }
-    //! [les-chars]
 
     emit characteristicsUpdated();
 }
 
-void Devices::deviceScanError(QBluetoothDeviceDiscoveryAgent::Error error)
-{
+void BleApi::deviceScanError(QBluetoothDeviceDiscoveryAgent::Error error) {
     if (error == QBluetoothDeviceDiscoveryAgent::PoweredOffError)
-        setUpdate("The Bluetooth adaptor is powered off, power it on before doing discovery.");
+        qDebug() << "The Bluetooth adaptor is powered off, power it on before doing discovery.";
     else if (error == QBluetoothDeviceDiscoveryAgent::InputOutputError)
-        setUpdate("Writing or reading from the device resulted in an error.");
+        qDebug() << "Writing or reading from the device resulted in an error.";
     else {
         static QMetaEnum qme = discoveryAgent->metaObject()->enumerator(
                     discoveryAgent->metaObject()->indexOfEnumerator("Error"));
-        setUpdate("Error: " + QLatin1String(qme.valueToKey(error)));
+        qDebug() << "Error: " + QLatin1String(qme.valueToKey(error));
     }
 
     m_deviceScanState = false;
@@ -371,23 +322,19 @@ void Devices::deviceScanError(QBluetoothDeviceDiscoveryAgent::Error error)
     emit scanFinished();
 }
 
-bool Devices::state()
-{
+bool BleApi::state() {
     return m_deviceScanState;
 }
 
-bool Devices::hasControllerError() const
-{
+bool BleApi::hasControllerError() const {
     return (controller && controller->error() != QLowEnergyController::NoError);
 }
 
-bool Devices::isRandomAddress() const
-{
+bool BleApi::isRandomAddress() const {
     return randomAddress;
 }
 
-void Devices::setRandomAddress(bool newValue)
-{
+void BleApi::setRandomAddress(bool newValue) {
     randomAddress = newValue;
     emit randomAddressChanged();
 }

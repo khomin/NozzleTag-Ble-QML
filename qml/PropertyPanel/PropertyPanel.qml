@@ -22,9 +22,6 @@ Item {
         onBleServieCharactresticsUpdated: {
             listPropertyDescInfoListModel.append({"serviceName":serviceName,"uuid":uuid,"valueAsci":valueAsci,"valueHex":valueHex});
         }
-        onBleClearDeviceData: {
-            listPropertyDescInfoListModel.clear();
-        }
     }
 
     Rectangle {

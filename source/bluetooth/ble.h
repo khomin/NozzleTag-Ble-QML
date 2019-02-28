@@ -52,18 +52,18 @@
 #define DEVICE_H
 
 #include "source/bluetooth/bleModel.h"
-#include "source/bluetooth/devices.h"
+#include "source/bluetooth/bleApi.h"
 
-class BleApi : public QObject
+class Ble : public QObject
 {
     Q_OBJECT
 public:
-    BleApi();
-    ~BleApi();
+    Ble(BleModel* bleModel);
+    ~Ble();
 
     BleModel* getBleModel();
     void startScan();
-
+    void stopScan();
     //    void on_power_clicked(bool clicked);
     //    void on_discoverable_clicked(bool clicked);
     //    void displayPairingMenu(const QPoint &pos);
@@ -72,7 +72,6 @@ public:
 
 private slots:
 //    void addLowEnergyService(const QBluetoothUuid &uuid);
-    void deviceConnected();
 //    void errorReceived(QLowEnergyController::Error);
 //    void serviceScanDone();
 //    void deviceDisconnected();
@@ -85,15 +84,8 @@ signals:
     void bleServieCharactresticsUpdated(QString serviceName, QString uuid, QString valueAsci, QString valueHex);
 
 private:
-    BleModel bleModel;
-    Devices * device;
-//    QBluetoothDeviceDiscoveryAgent *discoveryAgent;
-//    QList<QObject *> m_services;
-//    QList<QObject *> m_characteristics;
-//    QBluetoothLocalDevice *localDevice;
-//    QList<BleDevice*> devices;
-//    QLowEnergyController *controller = nullptr;
-//    QTimer updateRssiTimer;
+    BleModel* bleModel;
+    BleApi * bleApi;
 };
 
 #endif

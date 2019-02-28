@@ -2,7 +2,7 @@
 #include <qbluetoothdevicediscoveryagent.h>
 #include <qbluetoothlocaldevice.h>
 #include "characteristicinfo.h"
-#include "BleApi.h"
+#include "ble.h"
 #include <QMenu>
 #include <QVector>
 #include <QPair>
@@ -10,12 +10,15 @@
 #include <QDebug>
 #include <QThread>
 
-BleApi::BleApi() {
-    device = new Devices(&bleModel);
+#include "bleDevice.h"
 
-    connect(device, &Devices::characteristicsUpdated, this, [&]() {
+Ble::Ble(BleModel* bleModel) {
+    this->bleModel = bleModel;
+    this->bleApi = new BleApi(bleModel);
+
+    connect(bleApi, &BleApi::characteristicsUpdated, this, [&]() {
         qDebug() << "characteristicsUpdated";
-        auto chList = device->getCharacteristics().value<QList<QObject*>>();
+        auto chList = bleApi->getCharacteristics().value<QList<QObject*>>();
         for(auto chListItem: chList) {
             QString name = ((CharacteristicInfo*)chListItem)->getCharacteristic().name();
             QString uuid = ((CharacteristicInfo*)chListItem)->getCharacteristic().uuid().toString();
@@ -32,65 +35,67 @@ BleApi::BleApi() {
             emit bleServieCharactresticsUpdated(name, uuid, valueAsci, valueHex);
         }
     });
-    connect(device, &Devices::destroyed, this, [&]() {
+
+    connect(bleApi, &BleApi::destroyed, this, [&]() {
         qDebug() << "destroyed";
     });
-    connect(device, &Devices::devicesUpdated, this, [&]() {
+
+    connect(bleApi, &BleApi::devicesUpdated, this, [&]() {
         qDebug() << "devicesUpdated";
     });
-    connect(device, &Devices::disconnected, this, [&]() {
+
+    connect(bleApi, &BleApi::disconnected, this, [&]() {
         qDebug() << "disconnected";
     });
-    connect(device, &Devices::randomAddressChanged, this, [&]() {
+
+    connect(bleApi, &BleApi::randomAddressChanged, this, [&]() {
         qDebug() << "randomAddressChanged";
     });
-    connect(device, &Devices::servicesUpdated, this, [&]() {
+
+    connect(bleApi, &BleApi::servicesUpdated, this, [&]() {
         qDebug() << "servicesUpdated";
-        auto serv = device->getServices().value<QList<QObject*>>();
+        auto serv = bleApi->getServices().value<QList<QObject*>>();
         for(auto servItem: serv) {
             auto name = ((ServiceInfo*)servItem)->getName();
             qDebug() << "serv name = " << name;
         }
-        auto servList = device->getServices().value<QList<QObject*>>();
+        auto servList = bleApi->getServices().value<QList<QObject*>>();
         for(auto servItem: servList) {
             auto uuid = ((ServiceInfo*)servItem)->getUuid();
-            device->connectToService(uuid);
+            bleApi->connectToService(uuid);
         }
     });
-    connect(device, &Devices::stateChanged, this, [&]() {
+
+    connect(bleApi, &BleApi::stateChanged, this, [&]() {
         qDebug() << "stateChanged";
     });
-    connect(device, &Devices::updateChanged, this, [&]() {
+
+    connect(bleApi, &BleApi::updateChanged, this, [&]() {
         qDebug() << "updateChanged";
     });
 
-    connect(device, &Devices::scanFinished, this, &BleApi::scanFinishedSignal);
+    connect(bleApi, &BleApi::scanFinished, this, &Ble::scanFinishedSignal);
 
-    QTimer::singleShot(1000, Qt::CoarseTimer, this, [&]() {
-        auto list = device->getDevices().value<QList<QObject*>>();
-        for(auto item: list) {
-            auto addr = ((DeviceInfo*)item)->getAddress();
-            device->scanServices(addr);
+    QTimer::singleShot(3000, Qt::CoarseTimer, this, [&]() {
+        auto list = bleApi->getDevices().value<QList<BleModelItem*>>();
+        for(auto i: list) {
+            auto addr = i->getDevAddr();
+            bleApi->scanServices(addr);
         }
     });
 }
 
-BleApi::~BleApi() {}
+Ble::~Ble() {}
 
-BleModel* BleApi::getBleModel() {
-    return &bleModel;
+BleModel* Ble::getBleModel() {
+    return bleModel;
 }
 
-void BleApi::startScan() {
-    device->startDeviceDiscovery();
+void Ble::startScan() {
+    bleApi->startDeviceDiscovery();
     emit scanStarted();
 }
 
-void BleApi::deviceConnected() {
-    qDebug() << "deviceConnected";
-    //    setUpdate("Back\n(Discovering services...)");
-    //    connected = true;
-    //! [les-service-2]
-    //    controller->discoverServices();
-    //! [les-service-2]
+void Ble::stopScan() {
+
 }
