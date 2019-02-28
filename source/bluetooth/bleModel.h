@@ -31,6 +31,8 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    bool removeRows(int index, int rows, const QModelIndex & parent);
+
     QHash<int, QByteArray> roleNames() const override;
 
 private:

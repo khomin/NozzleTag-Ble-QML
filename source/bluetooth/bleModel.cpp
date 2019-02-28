@@ -22,7 +22,17 @@ int BleModel::rowCount(const QModelIndex & parent) const {
 }
 
 void BleModel::clearAll() {
-    bleDevices.clear();
+    if(!bleDevices.isEmpty()) {
+        removeRows(rowCount()-1, 1, QModelIndex());
+    }
+}
+
+bool BleModel::removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) {
+    Q_UNUSED(parent);
+    beginRemoveRows(QModelIndex(), row, row + count - 1);
+    while (count--) delete bleDevices.takeAt(row);
+    endRemoveRows();
+    return true;
 }
 
 QList<BleModelItem*>& BleModel::getBleDevices() {

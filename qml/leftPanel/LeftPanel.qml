@@ -64,9 +64,6 @@ Item {
                     widthBody: panelRectangle.width / 2 - 15
                     caption: "Stop"
                     enabled: scanIsRunner
-                    onClicked: {
-                        // TODO:
-                    }
                 }
             }
             ListView {
@@ -74,6 +71,7 @@ Item {
                 width: parent.width - 10
                 height: panelRectangle.height - buttonStanRow.height - busyRectangle.height - 15
                 clip: true
+                enabled: !scanIsRunner
 
                 model: bleDeviceModel
                 delegate: Rectangle {
