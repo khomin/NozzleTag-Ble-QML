@@ -60,7 +60,7 @@
 #include <QLowEnergyController>
 #include <QBluetoothServiceInfo>
 
-#include "bleModel.h"
+#include "bleModelDevice.h"
 #include "bleDevice.h"
 #include "deviceinfo.h"
 #include "serviceinfo.h"
@@ -73,7 +73,7 @@ class BleApi: public QObject
 {
     Q_OBJECT
 public:
-    BleApi(BleModel* bleModel);
+    BleApi(BleModelDevice* bleModel);
     ~BleApi();
     QVariant getDevices();
     QVariant getServices();
@@ -119,7 +119,7 @@ signals:
 
 private:
     bool connected = false;
-    BleModel* bleModel;
+    BleModelDevice* bleModel;
     QBluetoothDeviceDiscoveryAgent* discoveryAgent;
     DeviceInfo currentDevice;
     QList<QObject *> m_services;

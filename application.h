@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "./source/bluetooth/ble.h"
-#include "./source/bluetooth/bleModel.h"
+#include "./source/bluetooth/bleModelDevice.h"
 
 class Application : public QObject
 {
@@ -13,7 +13,7 @@ public:
 
     Q_INVOKABLE void bleStartScann();
     Q_INVOKABLE void bleStopScann();
-    Q_INVOKABLE BleModel* getBleModel();
+    Q_INVOKABLE BleModelDevice* getBleModel();
 
 signals:
     void bleScanStarted();
@@ -22,7 +22,7 @@ signals:
 
 private:
     Ble* ble;
-    BleModel* bleModel;
+    BleModelDevice* bleModel;
 };
 
 #endif // APPLICATION_H

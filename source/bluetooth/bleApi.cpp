@@ -62,7 +62,7 @@
 #include <QMetaEnum>
 #include <QTimer>
 
-BleApi::BleApi(BleModel* bleModel) {
+BleApi::BleApi(BleModelDevice* bleModel) {
     this->bleModel = bleModel;
 
     discoveryAgent = new QBluetoothDeviceDiscoveryAgent();

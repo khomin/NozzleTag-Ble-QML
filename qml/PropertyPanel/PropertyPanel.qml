@@ -20,7 +20,7 @@ Item {
     Connections {
         target:application
         onBleServieCharactresticsUpdated: {
-            listPropertyDescInfoListModel.append({"serviceName":serviceName,"uuid":uuid,"valueAsci":valueAsci,"valueHex":valueHex});
+//            listPropertyDescInfoListModel.append({"serviceName":serviceName,"uuid":uuid,"valueAsci":valueAsci,"valueHex":valueHex});
         }
     }
 
@@ -91,6 +91,7 @@ Item {
 
                             ListView {
                                 id: listPropertyDescInfo
+                                model: bleDeviceModel
                                 clip: true
                                 anchors.left: parent.left
                                 anchors.leftMargin: 15
@@ -123,25 +124,25 @@ Item {
                                             anchors.bottomMargin: 15
                                             spacing: 5
                                             TextField {
-                                                text: "Name: " + model.serviceName
+                                                text: "Name: " + model.devAddr//model.serviceName
                                                 width: parent.width
                                                 height: 25
                                             }
-                                            TextField {
-                                                text: "UUID:" + model.uuid
-                                                width: parent.width
-                                                height: 25
-                                            }
-                                            TextField {
-                                                text: "ASCI: " + model.valueAsci
-                                                width: parent.width
-                                                height: 25
-                                            }
-                                            TextField {
-                                                text: "HEX: " + model.valueHex
-                                                width: parent.width
-                                                height: 25
-                                            }
+//                                            TextField {
+//                                                text: "UUID:" + model.uuid
+//                                                width: parent.width
+//                                                height: 25
+//                                            }
+//                                            TextField {
+//                                                text: "ASCI: " + model.valueAsci
+//                                                width: parent.width
+//                                                height: 25
+//                                            }
+//                                            TextField {
+//                                                text: "HEX: " + model.valueHex
+//                                                width: parent.width
+//                                                height: 25
+//                                            }
                                         }
                                     }
                                     DropShadow {
@@ -153,9 +154,6 @@ Item {
                                         color: "#80000000"
                                         source: rectService
                                     }
-                                }
-                                model: ListModel {
-                                    id: listPropertyDescInfoListModel
                                 }
                             }
                         }

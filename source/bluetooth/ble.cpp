@@ -12,7 +12,7 @@
 
 #include "bleDevice.h"
 
-Ble::Ble(BleModel* bleModel) {
+Ble::Ble(BleModelDevice * bleModel) {
     this->bleModel = bleModel;
     this->bleApi = new BleApi(bleModel);
 
@@ -87,7 +87,7 @@ Ble::Ble(BleModel* bleModel) {
 
 Ble::~Ble() {}
 
-BleModel* Ble::getBleModel() {
+BleModelDevice* Ble::getBleModel() {
     return bleModel;
 }
 

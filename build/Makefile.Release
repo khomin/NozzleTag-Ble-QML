@@ -48,61 +48,61 @@ OBJECTS_DIR   = release
 SOURCES       = ..\app.cpp \
 		..\application.cpp \
 		..\source\bluetooth\bleDevice.cpp \
-		..\source\bluetooth\bleModel.cpp \
 		..\source\bluetooth\bleModelItem.cpp \
 		..\source\bluetooth\characteristicinfo.cpp \
 		..\source\bluetooth\deviceinfo.cpp \
 		..\source\bluetooth\serviceinfo.cpp \
 		..\source\bluetooth\ble.cpp \
-		..\source\bluetooth\bleApi.cpp release\qrc_resource.cpp \
+		..\source\bluetooth\bleApi.cpp \
+		..\source\bluetooth\bleModelDevice.cpp release\qrc_resource.cpp \
 		release\moc_application.cpp \
 		release\moc_bleDevice.cpp \
-		release\moc_bleModel.cpp \
 		release\moc_bleModelItem.cpp \
 		release\moc_characteristicinfo.cpp \
 		release\moc_deviceinfo.cpp \
 		release\moc_serviceinfo.cpp \
 		release\moc_ble.cpp \
-		release\moc_bleApi.cpp
+		release\moc_bleApi.cpp \
+		release\moc_bleModelDevice.cpp
 OBJECTS       = release\app.obj \
 		release\application.obj \
 		release\bleDevice.obj \
-		release\bleModel.obj \
 		release\bleModelItem.obj \
 		release\characteristicinfo.obj \
 		release\deviceinfo.obj \
 		release\serviceinfo.obj \
 		release\ble.obj \
 		release\bleApi.obj \
+		release\bleModelDevice.obj \
 		release\qrc_resource.obj \
 		release\moc_application.obj \
 		release\moc_bleDevice.obj \
-		release\moc_bleModel.obj \
 		release\moc_bleModelItem.obj \
 		release\moc_characteristicinfo.obj \
 		release\moc_deviceinfo.obj \
 		release\moc_serviceinfo.obj \
 		release\moc_ble.obj \
-		release\moc_bleApi.obj
+		release\moc_bleApi.obj \
+		release\moc_bleModelDevice.obj
 
 DIST          =  ..\application.h \
 		..\source\bluetooth\bleDevice.h \
-		..\source\bluetooth\bleModel.h \
 		..\source\bluetooth\bleModelItem.h \
 		..\source\bluetooth\characteristicinfo.h \
 		..\source\bluetooth\deviceinfo.h \
 		..\source\bluetooth\serviceinfo.h \
 		..\source\bluetooth\ble.h \
-		..\source\bluetooth\bleApi.h ..\app.cpp \
+		..\source\bluetooth\bleApi.h \
+		..\source\bluetooth\bleModelDevice.h ..\app.cpp \
 		..\application.cpp \
 		..\source\bluetooth\bleDevice.cpp \
-		..\source\bluetooth\bleModel.cpp \
 		..\source\bluetooth\bleModelItem.cpp \
 		..\source\bluetooth\characteristicinfo.cpp \
 		..\source\bluetooth\deviceinfo.cpp \
 		..\source\bluetooth\serviceinfo.cpp \
 		..\source\bluetooth\ble.cpp \
-		..\source\bluetooth\bleApi.cpp
+		..\source\bluetooth\bleApi.cpp \
+		..\source\bluetooth\bleModelDevice.cpp
 QMAKE_TARGET  = NozzleBle
 DESTDIR        = release\ #avoid trailing-slash linebreak
 TARGET         = NozzleBle.exe
@@ -199,7 +199,7 @@ all: Makefile.Release  release\NozzleBle.exe
 
 release\NozzleBle.exe:  $(OBJECTS) 
 	$(LINKER) $(LFLAGS) /MANIFEST:embed /OUT:$(DESTDIR_TARGET) @<<
-release\app.obj release\application.obj release\bleDevice.obj release\bleModel.obj release\bleModelItem.obj release\characteristicinfo.obj release\deviceinfo.obj release\serviceinfo.obj release\ble.obj release\bleApi.obj release\qrc_resource.obj release\moc_application.obj release\moc_bleDevice.obj release\moc_bleModel.obj release\moc_bleModelItem.obj release\moc_characteristicinfo.obj release\moc_deviceinfo.obj release\moc_serviceinfo.obj release\moc_ble.obj release\moc_bleApi.obj
+release\app.obj release\application.obj release\bleDevice.obj release\bleModelItem.obj release\characteristicinfo.obj release\deviceinfo.obj release\serviceinfo.obj release\ble.obj release\bleApi.obj release\bleModelDevice.obj release\qrc_resource.obj release\moc_application.obj release\moc_bleDevice.obj release\moc_bleModelItem.obj release\moc_characteristicinfo.obj release\moc_deviceinfo.obj release\moc_serviceinfo.obj release\moc_ble.obj release\moc_bleApi.obj release\moc_bleModelDevice.obj
 $(LIBS)
 <<
 
@@ -209,10 +209,10 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) NozzleBle.zip $(SOURCES) $(DIST) ..\scanner.pro C:\Qt\5.12.0\msvc2017_64\mkspecs\features\spec_pre.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\common\angle.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\common\windows-vulkan.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\common\msvc-desktop.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\qconfig.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3danimation.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3danimation_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dextras.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dextras_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickanimation.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickanimation_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickextras.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickextras_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickinput.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickinput_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickrender.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickrender_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickscene2d.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickscene2d_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3drender.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3drender_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_accessibility_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_charts.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_charts_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_core.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_datavisualization.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_datavisualization_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_edid_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_egl_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_fontdatabase_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_gamepad.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_gamepad_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_help.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_location.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_network.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_networkauth.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_networkauth_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_platformcompositor_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_positioningquick.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_positioningquick_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_purchasing.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_purchasing_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickshapes_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_remoteobjects.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_remoteobjects_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_repparser.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_repparser_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_script.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_script_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_scxml.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_scxml_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_serialbus.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_serialbus_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_texttospeech.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_texttospeech_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_theme_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_virtualkeyboard.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_virtualkeyboard_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_vulkan_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webengine.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webengine_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginecore.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginecore_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginecoreheaders_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginewidgets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginewidgets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webview.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_zlib_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qt_functions.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qt_config.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\win32-msvc\qmake.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\5.12.0\msvc2017_64\mkspecs\features\exclusive_builds.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\common\msvc-version.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\toolchain.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\default_pre.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\win32\default_pre.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\resolve_config.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\default_post.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\build_pass.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qml_debug.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\precompile_header.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\warn_on.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qt.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\resources.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\moc.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\win32\opengl.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\uic.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qmake_use.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\file_copies.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\win32\windows.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\testcase_targets.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\exceptions.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\yacc.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\lex.prf ..\scanner.pro ..\resource.qrc C:\Qt\5.12.0\msvc2017_64\lib\Qt5Quick.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Charts.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Widgets.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Gui.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Qml.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Network.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5SerialPort.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Sql.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Bluetooth.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Core.prl C:\Qt\5.12.0\msvc2017_64\lib\qtmain.prl   ..\resource.qrc C:\Qt\5.12.0\msvc2017_64\mkspecs\features\data\dummy.cpp ..\application.h ..\source\bluetooth\bleDevice.h ..\source\bluetooth\bleModel.h ..\source\bluetooth\bleModelItem.h ..\source\bluetooth\characteristicinfo.h ..\source\bluetooth\deviceinfo.h ..\source\bluetooth\serviceinfo.h ..\source\bluetooth\ble.h ..\source\bluetooth\bleApi.h  ..\app.cpp ..\application.cpp ..\source\bluetooth\bleDevice.cpp ..\source\bluetooth\bleModel.cpp ..\source\bluetooth\bleModelItem.cpp ..\source\bluetooth\characteristicinfo.cpp ..\source\bluetooth\deviceinfo.cpp ..\source\bluetooth\serviceinfo.cpp ..\source\bluetooth\ble.cpp ..\source\bluetooth\bleApi.cpp     
+	$(ZIP) NozzleBle.zip $(SOURCES) $(DIST) ..\scanner.pro C:\Qt\5.12.0\msvc2017_64\mkspecs\features\spec_pre.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\common\angle.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\common\windows-vulkan.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\common\msvc-desktop.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\qconfig.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3danimation.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3danimation_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dextras.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dextras_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickanimation.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickanimation_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickextras.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickextras_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickinput.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickinput_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickrender.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickrender_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickscene2d.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3dquickscene2d_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3drender.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_3drender_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_accessibility_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_charts.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_charts_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_core.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_datavisualization.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_datavisualization_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_edid_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_egl_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_fontdatabase_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_gamepad.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_gamepad_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_help.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_location.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_network.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_networkauth.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_networkauth_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_platformcompositor_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_positioningquick.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_positioningquick_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_purchasing.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_purchasing_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickshapes_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_remoteobjects.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_remoteobjects_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_repparser.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_repparser_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_script.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_script_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_scxml.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_scxml_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_serialbus.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_serialbus_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_texttospeech.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_texttospeech_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_theme_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_virtualkeyboard.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_virtualkeyboard_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_vulkan_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webengine.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webengine_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginecore.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginecore_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginecoreheaders_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginewidgets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webenginewidgets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webview.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\modules\qt_lib_zlib_private.pri C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qt_functions.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qt_config.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\win32-msvc\qmake.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\5.12.0\msvc2017_64\mkspecs\features\exclusive_builds.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\common\msvc-version.conf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\toolchain.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\default_pre.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\win32\default_pre.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\resolve_config.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\default_post.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\build_pass.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qml_debug.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\precompile_header.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\warn_on.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qt.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\resources.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\moc.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\win32\opengl.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\uic.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\qmake_use.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\file_copies.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\win32\windows.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\testcase_targets.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\exceptions.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\yacc.prf C:\Qt\5.12.0\msvc2017_64\mkspecs\features\lex.prf ..\scanner.pro ..\resource.qrc C:\Qt\5.12.0\msvc2017_64\lib\Qt5Quick.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Charts.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Widgets.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Gui.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Qml.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Network.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5SerialPort.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Sql.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Bluetooth.prl C:\Qt\5.12.0\msvc2017_64\lib\Qt5Core.prl C:\Qt\5.12.0\msvc2017_64\lib\qtmain.prl   ..\resource.qrc C:\Qt\5.12.0\msvc2017_64\mkspecs\features\data\dummy.cpp ..\application.h ..\source\bluetooth\bleDevice.h ..\source\bluetooth\bleModelItem.h ..\source\bluetooth\characteristicinfo.h ..\source\bluetooth\deviceinfo.h ..\source\bluetooth\serviceinfo.h ..\source\bluetooth\ble.h ..\source\bluetooth\bleApi.h ..\source\bluetooth\bleModelDevice.h  ..\app.cpp ..\application.cpp ..\source\bluetooth\bleDevice.cpp ..\source\bluetooth\bleModelItem.cpp ..\source\bluetooth\characteristicinfo.cpp ..\source\bluetooth\deviceinfo.cpp ..\source\bluetooth\serviceinfo.cpp ..\source\bluetooth\ble.cpp ..\source\bluetooth\bleApi.cpp ..\source\bluetooth\bleModelDevice.cpp     
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\app.obj release\application.obj release\bleDevice.obj release\bleModel.obj release\bleModelItem.obj release\characteristicinfo.obj release\deviceinfo.obj release\serviceinfo.obj release\ble.obj release\bleApi.obj release\qrc_resource.obj release\moc_application.obj release\moc_bleDevice.obj release\moc_bleModel.obj release\moc_bleModelItem.obj release\moc_characteristicinfo.obj release\moc_deviceinfo.obj release\moc_serviceinfo.obj release\moc_ble.obj release\moc_bleApi.obj
+	-$(DEL_FILE) release\app.obj release\application.obj release\bleDevice.obj release\bleModelItem.obj release\characteristicinfo.obj release\deviceinfo.obj release\serviceinfo.obj release\ble.obj release\bleApi.obj release\bleModelDevice.obj release\qrc_resource.obj release\moc_application.obj release\moc_bleDevice.obj release\moc_bleModelItem.obj release\moc_characteristicinfo.obj release\moc_deviceinfo.obj release\moc_serviceinfo.obj release\moc_ble.obj release\moc_bleApi.obj release\moc_bleModelDevice.obj
 	-$(DEL_FILE) release\NozzleBle.exp
 
 distclean: clean 
@@ -251,9 +251,9 @@ compiler_moc_predefs_clean:
 release\moc_predefs.h: C:\Qt\5.12.0\msvc2017_64\mkspecs\features\data\dummy.cpp
 	cl -BxC:\Qt\5.12.0\msvc2017_64\bin\qmake.exe -nologo -Zc:wchar_t -FS -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -Zc:__cplusplus -O2 -MD -std:c++14 -W3 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 -wd4577 -wd4467 -E C:\Qt\5.12.0\msvc2017_64\mkspecs\features\data\dummy.cpp 2>NUL >release\moc_predefs.h
 
-compiler_moc_header_make_all: release\moc_application.cpp release\moc_bleDevice.cpp release\moc_bleModel.cpp release\moc_bleModelItem.cpp release\moc_characteristicinfo.cpp release\moc_deviceinfo.cpp release\moc_serviceinfo.cpp release\moc_ble.cpp release\moc_bleApi.cpp
+compiler_moc_header_make_all: release\moc_application.cpp release\moc_bleDevice.cpp release\moc_bleModelItem.cpp release\moc_characteristicinfo.cpp release\moc_deviceinfo.cpp release\moc_serviceinfo.cpp release\moc_ble.cpp release\moc_bleApi.cpp release\moc_bleModelDevice.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) release\moc_application.cpp release\moc_bleDevice.cpp release\moc_bleModel.cpp release\moc_bleModelItem.cpp release\moc_characteristicinfo.cpp release\moc_deviceinfo.cpp release\moc_serviceinfo.cpp release\moc_ble.cpp release\moc_bleApi.cpp
+	-$(DEL_FILE) release\moc_application.cpp release\moc_bleDevice.cpp release\moc_bleModelItem.cpp release\moc_characteristicinfo.cpp release\moc_deviceinfo.cpp release\moc_serviceinfo.cpp release\moc_ble.cpp release\moc_bleApi.cpp release\moc_bleModelDevice.cpp
 release\moc_application.cpp: C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs.h \
@@ -305,7 +305,7 @@ release\moc_application.cpp: C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontainerfwd.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject_impl.h \
 		..\source\bluetooth\ble.h \
-		..\source\bluetooth\bleModel.h \
+		..\source\bluetooth\bleModelDevice.h \
 		..\source\bluetooth\bleModelItem.h \
 		..\source\bluetooth\deviceinfo.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothdeviceinfo.h \
@@ -448,104 +448,6 @@ release\moc_bleDevice.cpp: C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
 		release\moc_predefs.h \
 		C:\Qt\5.12.0\msvc2017_64\bin\moc.exe
 	C:\Qt\5.12.0\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/PROJECTs/nozzle/NozzleQmlConfigureTester/build/release/moc_predefs.h -IC:/Qt/5.12.0/msvc2017_64/mkspecs/win32-msvc -ID:/PROJECTs/nozzle/NozzleQmlConfigureTester -IC:/Qt/5.12.0/msvc2017_64/include -IC:/Qt/5.12.0/msvc2017_64/include/QtQuick -IC:/Qt/5.12.0/msvc2017_64/include/QtCharts -IC:/Qt/5.12.0/msvc2017_64/include/QtWidgets -IC:/Qt/5.12.0/msvc2017_64/include/QtGui -IC:/Qt/5.12.0/msvc2017_64/include/QtANGLE -IC:/Qt/5.12.0/msvc2017_64/include/QtQml -IC:/Qt/5.12.0/msvc2017_64/include/QtNetwork -IC:/Qt/5.12.0/msvc2017_64/include/QtSerialPort -IC:/Qt/5.12.0/msvc2017_64/include/QtSql -IC:/Qt/5.12.0/msvc2017_64/include/QtBluetooth -IC:/Qt/5.12.0/msvc2017_64/include/QtCore -I. -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" ..\source\bluetooth\bleDevice.h -o release\moc_bleDevice.cpp
-
-release\moc_bleModel.cpp: C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qnamespace.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qglobal.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qconfig.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtcore-config.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsystemdetection.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qprocessordetection.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcompilerdetection.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtypeinfo.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsysinfo.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlogging.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qflags.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbasicatomic.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qgenericatomic.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_cxx11.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_msvc.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qglobalstatic.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmutex.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qnumeric.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qversiontagging.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstring.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qchar.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbytearray.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qrefcount.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qarraydata.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringliteral.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringalgorithms.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringview.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringbuilder.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlist.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qalgorithms.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qiterator.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qhashfunctions.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qpair.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbytearraylist.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringlist.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qregexp.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringmatcher.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcoreevent.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qscopedpointer.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmetatype.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvarlengtharray.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontainerfwd.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject_impl.h \
-		..\source\bluetooth\bleModelItem.h \
-		..\source\bluetooth\deviceinfo.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothdeviceinfo.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qtbluetoothglobal.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qtbluetooth-config.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvector.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qpoint.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothaddress.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QByteArray \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QString \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QMetaType \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\QList \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qevent.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtguiglobal.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtgui-config.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qwindowdefs.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qwindowdefs_win.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qregion.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qrect.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmargins.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsize.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qdatastream.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qiodevice.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qkeysequence.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvariant.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmap.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qdebug.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qhash.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtextstream.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlocale.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qshareddata.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qset.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontiguouscache.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsharedpointer.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qurl.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qurlquery.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qfile.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qfiledevice.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qvector2d.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtouchdevice.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QAbstractListModel \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qabstractitemmodel.h \
-		..\source\bluetooth\bleModel.h \
-		release\moc_predefs.h \
-		C:\Qt\5.12.0\msvc2017_64\bin\moc.exe
-	C:\Qt\5.12.0\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/PROJECTs/nozzle/NozzleQmlConfigureTester/build/release/moc_predefs.h -IC:/Qt/5.12.0/msvc2017_64/mkspecs/win32-msvc -ID:/PROJECTs/nozzle/NozzleQmlConfigureTester -IC:/Qt/5.12.0/msvc2017_64/include -IC:/Qt/5.12.0/msvc2017_64/include/QtQuick -IC:/Qt/5.12.0/msvc2017_64/include/QtCharts -IC:/Qt/5.12.0/msvc2017_64/include/QtWidgets -IC:/Qt/5.12.0/msvc2017_64/include/QtGui -IC:/Qt/5.12.0/msvc2017_64/include/QtANGLE -IC:/Qt/5.12.0/msvc2017_64/include/QtQml -IC:/Qt/5.12.0/msvc2017_64/include/QtNetwork -IC:/Qt/5.12.0/msvc2017_64/include/QtSerialPort -IC:/Qt/5.12.0/msvc2017_64/include/QtSql -IC:/Qt/5.12.0/msvc2017_64/include/QtBluetooth -IC:/Qt/5.12.0/msvc2017_64/include/QtCore -I. -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" ..\source\bluetooth\bleModel.h -o release\moc_bleModel.cpp
 
 release\moc_bleModelItem.cpp: C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject.h \
@@ -913,7 +815,7 @@ release\moc_serviceinfo.cpp: C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\QLowEn
 		C:\Qt\5.12.0\msvc2017_64\bin\moc.exe
 	C:\Qt\5.12.0\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/PROJECTs/nozzle/NozzleQmlConfigureTester/build/release/moc_predefs.h -IC:/Qt/5.12.0/msvc2017_64/mkspecs/win32-msvc -ID:/PROJECTs/nozzle/NozzleQmlConfigureTester -IC:/Qt/5.12.0/msvc2017_64/include -IC:/Qt/5.12.0/msvc2017_64/include/QtQuick -IC:/Qt/5.12.0/msvc2017_64/include/QtCharts -IC:/Qt/5.12.0/msvc2017_64/include/QtWidgets -IC:/Qt/5.12.0/msvc2017_64/include/QtGui -IC:/Qt/5.12.0/msvc2017_64/include/QtANGLE -IC:/Qt/5.12.0/msvc2017_64/include/QtQml -IC:/Qt/5.12.0/msvc2017_64/include/QtNetwork -IC:/Qt/5.12.0/msvc2017_64/include/QtSerialPort -IC:/Qt/5.12.0/msvc2017_64/include/QtSql -IC:/Qt/5.12.0/msvc2017_64/include/QtBluetooth -IC:/Qt/5.12.0/msvc2017_64/include/QtCore -I. -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" ..\source\bluetooth\serviceinfo.h -o release\moc_serviceinfo.cpp
 
-release\moc_ble.cpp: ..\source\bluetooth\bleModel.h \
+release\moc_ble.cpp: ..\source\bluetooth\bleModelDevice.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs.h \
@@ -1165,7 +1067,7 @@ release\moc_bleApi.cpp: C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
 		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\QLowEnergyDescriptor \
 		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qlowenergydescriptor.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QVariantMap \
-		..\source\bluetooth\bleModel.h \
+		..\source\bluetooth\bleModelDevice.h \
 		..\source\bluetooth\bleModelItem.h \
 		..\source\bluetooth\deviceinfo.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QAbstractListModel \
@@ -1177,6 +1079,104 @@ release\moc_bleApi.cpp: C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
 		release\moc_predefs.h \
 		C:\Qt\5.12.0\msvc2017_64\bin\moc.exe
 	C:\Qt\5.12.0\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/PROJECTs/nozzle/NozzleQmlConfigureTester/build/release/moc_predefs.h -IC:/Qt/5.12.0/msvc2017_64/mkspecs/win32-msvc -ID:/PROJECTs/nozzle/NozzleQmlConfigureTester -IC:/Qt/5.12.0/msvc2017_64/include -IC:/Qt/5.12.0/msvc2017_64/include/QtQuick -IC:/Qt/5.12.0/msvc2017_64/include/QtCharts -IC:/Qt/5.12.0/msvc2017_64/include/QtWidgets -IC:/Qt/5.12.0/msvc2017_64/include/QtGui -IC:/Qt/5.12.0/msvc2017_64/include/QtANGLE -IC:/Qt/5.12.0/msvc2017_64/include/QtQml -IC:/Qt/5.12.0/msvc2017_64/include/QtNetwork -IC:/Qt/5.12.0/msvc2017_64/include/QtSerialPort -IC:/Qt/5.12.0/msvc2017_64/include/QtSql -IC:/Qt/5.12.0/msvc2017_64/include/QtBluetooth -IC:/Qt/5.12.0/msvc2017_64/include/QtCore -I. -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" ..\source\bluetooth\bleApi.h -o release\moc_bleApi.cpp
+
+release\moc_bleModelDevice.cpp: C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qnamespace.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qglobal.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qconfig.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtcore-config.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsystemdetection.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qprocessordetection.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcompilerdetection.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtypeinfo.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsysinfo.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlogging.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qflags.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbasicatomic.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qgenericatomic.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_cxx11.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_msvc.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qglobalstatic.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmutex.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qnumeric.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qversiontagging.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstring.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qchar.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbytearray.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qrefcount.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qarraydata.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringliteral.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringalgorithms.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringview.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringbuilder.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlist.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qalgorithms.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qiterator.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qhashfunctions.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qpair.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbytearraylist.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringlist.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qregexp.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringmatcher.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcoreevent.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qscopedpointer.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmetatype.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvarlengtharray.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontainerfwd.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject_impl.h \
+		..\source\bluetooth\bleModelItem.h \
+		..\source\bluetooth\deviceinfo.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothdeviceinfo.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qtbluetoothglobal.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qtbluetooth-config.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvector.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qpoint.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothaddress.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QByteArray \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QString \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QMetaType \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\QList \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qevent.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtguiglobal.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtgui-config.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qwindowdefs.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qwindowdefs_win.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qregion.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qrect.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmargins.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsize.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qdatastream.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qiodevice.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qkeysequence.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvariant.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmap.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qdebug.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qhash.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtextstream.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlocale.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qshareddata.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qset.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontiguouscache.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsharedpointer.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qurl.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qurlquery.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qfile.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qfiledevice.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qvector2d.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtouchdevice.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QAbstractListModel \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qabstractitemmodel.h \
+		..\source\bluetooth\bleModelDevice.h \
+		release\moc_predefs.h \
+		C:\Qt\5.12.0\msvc2017_64\bin\moc.exe
+	C:\Qt\5.12.0\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include D:/PROJECTs/nozzle/NozzleQmlConfigureTester/build/release/moc_predefs.h -IC:/Qt/5.12.0/msvc2017_64/mkspecs/win32-msvc -ID:/PROJECTs/nozzle/NozzleQmlConfigureTester -IC:/Qt/5.12.0/msvc2017_64/include -IC:/Qt/5.12.0/msvc2017_64/include/QtQuick -IC:/Qt/5.12.0/msvc2017_64/include/QtCharts -IC:/Qt/5.12.0/msvc2017_64/include/QtWidgets -IC:/Qt/5.12.0/msvc2017_64/include/QtGui -IC:/Qt/5.12.0/msvc2017_64/include/QtANGLE -IC:/Qt/5.12.0/msvc2017_64/include/QtQml -IC:/Qt/5.12.0/msvc2017_64/include/QtNetwork -IC:/Qt/5.12.0/msvc2017_64/include/QtSerialPort -IC:/Qt/5.12.0/msvc2017_64/include/QtSql -IC:/Qt/5.12.0/msvc2017_64/include/QtBluetooth -IC:/Qt/5.12.0/msvc2017_64/include/QtCore -I. -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\cppwinrt" ..\source\bluetooth\bleModelDevice.h -o release\moc_bleModelDevice.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1554,7 +1554,7 @@ release\app.obj: ..\app.cpp C:\Qt\5.12.0\msvc2017_64\include\QtWidgets\QApplicat
 		C:\Qt\5.12.0\msvc2017_64\include\QtQml\QQmlContext \
 		..\application.h \
 		..\source\bluetooth\ble.h \
-		..\source\bluetooth\bleModel.h \
+		..\source\bluetooth\bleModelDevice.h \
 		..\source\bluetooth\bleModelItem.h \
 		..\source\bluetooth\deviceinfo.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothdeviceinfo.h \
@@ -1647,7 +1647,7 @@ release\application.obj: ..\application.cpp ..\application.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontainerfwd.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject_impl.h \
 		..\source\bluetooth\ble.h \
-		..\source\bluetooth\bleModel.h \
+		..\source\bluetooth\bleModelDevice.h \
 		..\source\bluetooth\bleModelItem.h \
 		..\source\bluetooth\deviceinfo.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothdeviceinfo.h \
@@ -1783,101 +1783,6 @@ release\bleDevice.obj: ..\source\bluetooth\bleDevice.cpp ..\source\bluetooth\ble
 		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qtbluetooth-config.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvector.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qpoint.h
-
-release\bleModel.obj: ..\source\bluetooth\bleModel.cpp ..\source\bluetooth\bleModel.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qnamespace.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qglobal.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qconfig.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtcore-config.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsystemdetection.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qprocessordetection.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcompilerdetection.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtypeinfo.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsysinfo.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlogging.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qflags.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbasicatomic.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qgenericatomic.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_cxx11.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_msvc.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qglobalstatic.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmutex.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qnumeric.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qversiontagging.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstring.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qchar.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbytearray.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qrefcount.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qarraydata.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringliteral.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringalgorithms.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringview.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringbuilder.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlist.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qalgorithms.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qiterator.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qhashfunctions.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qpair.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbytearraylist.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringlist.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qregexp.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringmatcher.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcoreevent.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qscopedpointer.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmetatype.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvarlengtharray.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontainerfwd.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject_impl.h \
-		..\source\bluetooth\bleModelItem.h \
-		..\source\bluetooth\deviceinfo.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothdeviceinfo.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qtbluetoothglobal.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qtbluetooth-config.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvector.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qpoint.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothaddress.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QByteArray \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QString \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QMetaType \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\QList \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qevent.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtguiglobal.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtgui-config.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qwindowdefs.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qwindowdefs_win.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qregion.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qrect.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmargins.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsize.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qdatastream.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qiodevice.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qkeysequence.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvariant.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmap.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qdebug.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qhash.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtextstream.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlocale.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qshareddata.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qset.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontiguouscache.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsharedpointer.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qurl.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qurlquery.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qfile.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qfiledevice.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qvector2d.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtouchdevice.h \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QAbstractListModel \
-		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qabstractitemmodel.h
 
 release\bleModelItem.obj: ..\source\bluetooth\bleModelItem.cpp ..\source\bluetooth\bleModelItem.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
@@ -2332,7 +2237,7 @@ release\ble.obj: ..\source\bluetooth\ble.cpp C:\Qt\5.12.0\msvc2017_64\include\Qt
 		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qlowenergydescriptor.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QVariantMap \
 		..\source\bluetooth\ble.h \
-		..\source\bluetooth\bleModel.h \
+		..\source\bluetooth\bleModelDevice.h \
 		..\source\bluetooth\bleModelItem.h \
 		..\source\bluetooth\deviceinfo.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtGui\QList \
@@ -2526,7 +2431,7 @@ release\bleApi.obj: ..\source\bluetooth\bleApi.cpp ..\source\bluetooth\bleApi.h 
 		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\QLowEnergyDescriptor \
 		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qlowenergydescriptor.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QVariantMap \
-		..\source\bluetooth\bleModel.h \
+		..\source\bluetooth\bleModelDevice.h \
 		..\source\bluetooth\bleModelItem.h \
 		..\source\bluetooth\deviceinfo.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QAbstractListModel \
@@ -2543,13 +2448,106 @@ release\bleApi.obj: ..\source\bluetooth\bleApi.cpp ..\source\bluetooth\bleApi.h 
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtimer.h \
 		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbasictimer.h
 
+release\bleModelDevice.obj: ..\source\bluetooth\bleModelDevice.cpp ..\source\bluetooth\bleModelDevice.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QObject \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qnamespace.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qglobal.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qconfig.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtcore-config.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsystemdetection.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qprocessordetection.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcompilerdetection.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtypeinfo.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsysinfo.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlogging.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qflags.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbasicatomic.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qgenericatomic.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_cxx11.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qatomic_msvc.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qglobalstatic.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmutex.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qnumeric.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qversiontagging.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstring.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qchar.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbytearray.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qrefcount.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qarraydata.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringliteral.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringalgorithms.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringview.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringbuilder.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlist.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qalgorithms.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qiterator.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qhashfunctions.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qpair.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qbytearraylist.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringlist.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qregexp.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qstringmatcher.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcoreevent.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qscopedpointer.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmetatype.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvarlengtharray.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontainerfwd.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qobject_impl.h \
+		..\source\bluetooth\bleModelItem.h \
+		..\source\bluetooth\deviceinfo.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothdeviceinfo.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qtbluetoothglobal.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qtbluetooth-config.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvector.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qpoint.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtBluetooth\qbluetoothaddress.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QByteArray \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QString \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QMetaType \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\QList \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qevent.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtguiglobal.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtgui-config.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qwindowdefs.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qwindowdefs_win.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qregion.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qrect.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmargins.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsize.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qdatastream.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qiodevice.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qkeysequence.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qvariant.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qmap.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qdebug.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qhash.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qtextstream.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qlocale.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qshareddata.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qset.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qcontiguouscache.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsharedpointer.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qurl.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qurlquery.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qfile.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qfiledevice.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qvector2d.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtGui\qtouchdevice.h \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\QAbstractListModel \
+		C:\Qt\5.12.0\msvc2017_64\include\QtCore\qabstractitemmodel.h
+
 release\qrc_resource.obj: release\qrc_resource.cpp 
 
 release\moc_application.obj: release\moc_application.cpp 
 
 release\moc_bleDevice.obj: release\moc_bleDevice.cpp 
-
-release\moc_bleModel.obj: release\moc_bleModel.cpp 
 
 release\moc_bleModelItem.obj: release\moc_bleModelItem.cpp 
 
@@ -2562,6 +2560,8 @@ release\moc_serviceinfo.obj: release\moc_serviceinfo.cpp
 release\moc_ble.obj: release\moc_ble.cpp 
 
 release\moc_bleApi.obj: release\moc_bleApi.cpp 
+
+release\moc_bleModelDevice.obj: release\moc_bleModelDevice.cpp 
 
 ####### Install
 

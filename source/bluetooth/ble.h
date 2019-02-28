@@ -51,17 +51,17 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-#include "source/bluetooth/bleModel.h"
+#include "source/bluetooth/bleModelDevice.h"
 #include "source/bluetooth/bleApi.h"
 
 class Ble : public QObject
 {
     Q_OBJECT
 public:
-    Ble(BleModel* bleModel);
+    Ble(BleModelDevice * bleModel);
     ~Ble();
 
-    BleModel* getBleModel();
+    BleModelDevice* getBleModel();
     void startScan();
     void stopScan();
     //    void on_power_clicked(bool clicked);
@@ -84,7 +84,7 @@ signals:
     void bleServieCharactresticsUpdated(QString serviceName, QString uuid, QString valueAsci, QString valueHex);
 
 private:
-    BleModel* bleModel;
+    BleModelDevice* bleModel;
     BleApi * bleApi;
 };
 
