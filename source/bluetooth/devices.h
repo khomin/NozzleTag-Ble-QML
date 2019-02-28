@@ -104,6 +104,8 @@ public slots:
     // QLowEnergyService related
     void serviceDetailsDiscovered(QLowEnergyService::ServiceState newState);
 
+    bool getScaningIsRunner();
+
 signals:
     void devicesUpdated();
     void servicesUpdated();
@@ -112,6 +114,7 @@ signals:
     void stateChanged();
     void disconnected();
     void randomAddressChanged();
+    void scanFinished();
 
 private:
     void setUpdate(const QString &message);

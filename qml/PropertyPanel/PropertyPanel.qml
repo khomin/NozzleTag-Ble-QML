@@ -20,59 +20,31 @@ Item {
     Connections {
         target:application
         onBleServieCharactresticsUpdated: {
-            listPropertyDescInfoListModel.append({"serviceName":serviceName,"uuid":uuid,"value":value});
+            listPropertyDescInfoListModel.append({"serviceName":serviceName,"uuid":uuid,"valueAsci":valueAsci,"valueHex":valueHex});
+        }
+        onBleClearDeviceData: {
+            listPropertyDescInfoListModel.clear();
         }
     }
-
-//    Component.onCompleted: {
-//        listPropertyDescInfoListModel.append({"serviceName":"serviceName","uuid":"uuid","value":"value"});
-//        listPropertyDescInfoListModel.append({"serviceName":"serviceName","uuid":"uuid","value":"value"});
-//        listPropertyDescInfoListModel.append({"serviceName":"serviceName","uuid":"uuid","value":"value"});
-//        listPropertyDescInfoListModel.append({"serviceName":"serviceName","uuid":"uuid","value":"value"});
-//        listPropertyDescInfoListModel.append({"serviceName":"serviceName","uuid":"uuid","value":"value"});
-//        listPropertyDescInfoListModel.append({"serviceName":"serviceName","uuid":"uuid","value":"value"});
-//        listPropertyDescInfoListModel.append({"serviceName":"serviceName","uuid":"uuid","value":"value"});
-//    }
 
     Rectangle {
         id: devicePanel
         color: "#ffffff"
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 15
 
         Column {
             anchors.fill: parent
             spacing: 20
-
-            Rectangle {
-                id: rssiRect
-                width: parent.width
-                height: 50
-                color: "gray"
-                Row {
-                    anchors.left: parent.left
-                    anchors.leftMargin: 15
-                    anchors.right: parent.right
-                    spacing: 15
-                    Text {
-                        id: rssiText
-                        text: qsTr("RSSI")
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                    ProgressBar {
-                        id:rssiPb
-                        width: parent.width - rssiText.width - 50
-                        height: 40
-                        anchors.verticalCenter: parent.verticalCenter
-                        value: 0
-                    }
-                }
-            }
             TabBar {
                 id:tabProperty
-                height: 25
                 anchors.left: parent.left
                 anchors.leftMargin: 30
-                currentIndex: 0
+                currentIndex: 1
                 font.pointSize: 8
                 background: Rectangle {
                     color: "#ffffff"
@@ -82,11 +54,13 @@ Item {
                     name: "Property"
                     textLine:1
                     widthBody: 150
+                    height: 20
                 }
                 TabButtonUp {
                     id:tabItemInfoDescriptor
-                    name: "info descriptor"
-                    widthBody: 250
+                    name: "Info descriptor"
+                    widthBody: 180
+                    height: 20
                 }
                 onCurrentIndexChanged: {
                     swipeProperty.setCurrentIndex(tabProperty.index)
@@ -95,8 +69,20 @@ Item {
             SwipeView {
                 id: swipeProperty
                 width: parent.width
-                height: parent.height - rssiRect.height
+                height: parent.height - tabProperty.height
                 currentIndex: tabProperty.currentIndex
+                clip: true
+                Item {
+                    ScrollView {
+                        clip: true
+                        anchors.fill: parent
+                        Rectangle {
+                            color: "white"
+                            height: parent.height
+                            width: parent.width
+                        }
+                    }
+                }
                 Item {
                     ScrollView {
                         clip: true
@@ -123,7 +109,7 @@ Item {
 
                                 delegate: Item {
                                     id: listPropertyDescInfoDelegate
-                                    height: 75
+                                    height: 150
                                     width: parent.width
                                     Rectangle {
                                         id:rectService
@@ -139,14 +125,25 @@ Item {
                                             anchors.bottom: parent.bottom
                                             anchors.bottomMargin: 15
                                             spacing: 5
-                                            Label {
-                                                text: model.serviceName
+                                            TextField {
+                                                text: "Name: " + model.serviceName
+                                                width: parent.width
+                                                height: 25
                                             }
-                                            Label {
-                                                text: model.uuid
+                                            TextField {
+                                                text: "UUID:" + model.uuid
+                                                width: parent.width
+                                                height: 25
                                             }
-                                            Label {
-                                                text: model.value
+                                            TextField {
+                                                text: "ASCI: " + model.valueAsci
+                                                width: parent.width
+                                                height: 25
+                                            }
+                                            TextField {
+                                                text: "HEX: " + model.valueHex
+                                                width: parent.width
+                                                height: 25
                                             }
                                         }
                                     }

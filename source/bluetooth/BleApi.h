@@ -63,7 +63,6 @@ public:
 
     BleModel* getBleModel();
     void startScan();
-    bool getScanningIsRunning();
 
     //    void on_power_clicked(bool clicked);
     //    void on_discoverable_clicked(bool clicked);
@@ -81,13 +80,13 @@ private slots:
 //    void serviceDetailsDiscovered(QLowEnergyService::ServiceState newState);
 
 signals:
+    void scanStarted();
     void scanFinishedSignal();
-    void bleServieCharactresticsUpdated(QString serviceName, QString uuid, QString value);
+    void bleServieCharactresticsUpdated(QString serviceName, QString uuid, QString valueAsci, QString valueHex);
 
 private:
     BleModel bleModel;
     Devices * device;
-    bool scanningIsRunning;
 //    QBluetoothDeviceDiscoveryAgent *discoveryAgent;
 //    QList<QObject *> m_services;
 //    QList<QObject *> m_characteristics;

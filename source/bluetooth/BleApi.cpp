@@ -11,25 +11,25 @@
 #include <QThread>
 
 BleApi::BleApi() {
-    scanningIsRunning = false;
     device = new Devices(&bleModel);
 
     connect(device, &Devices::characteristicsUpdated, this, [&]() {
         qDebug() << "characteristicsUpdated";
         auto chList = device->getCharacteristics().value<QList<QObject*>>();
         for(auto chListItem: chList) {
-            auto value = ((CharacteristicInfo*)chListItem)->getValue();
-            qDebug() << "item#1: " << ((CharacteristicInfo*)chListItem)->getCharacteristic().name();
-            qDebug() << "item#2: " << ((CharacteristicInfo*)chListItem)->getCharacteristic().uuid().toString();
-            QString strValue = "item#1: ";
-            for(auto i: value) {
-                strValue += "0x" + QString::number(i, 16) + " ";
+            QString name = ((CharacteristicInfo*)chListItem)->getCharacteristic().name();
+            QString uuid = ((CharacteristicInfo*)chListItem)->getCharacteristic().uuid().toString();
+            QString valueHex;
+            QString valueAsci;
+            auto tvalue = ((CharacteristicInfo*)chListItem)->getValue();
+            for(auto i: tvalue) {
+                valueHex += "0x" + QString::number(i&0xFF, 16) + " ";
             }
-            qDebug() << strValue;
-            emit bleServieCharactresticsUpdated(((CharacteristicInfo*)chListItem)->getCharacteristic().name(),
-                                                ((CharacteristicInfo*)chListItem)->getCharacteristic().uuid().toString(),
-                                                strValue
-                                                );
+            valueAsci = QString::fromUtf8(tvalue.data(), tvalue.length());
+            qDebug() << "name#: " << name;
+            qDebug() << "uuid#: " << uuid;
+            qDebug() << "valueAsci#: " << valueHex;
+            emit bleServieCharactresticsUpdated(name, uuid, valueAsci, valueHex);
         }
     });
     connect(device, &Devices::destroyed, this, [&]() {
@@ -64,6 +64,8 @@ BleApi::BleApi() {
         qDebug() << "updateChanged";
     });
 
+    connect(device, &Devices::scanFinished, this, &BleApi::scanFinishedSignal);
+
     QTimer::singleShot(1000, Qt::CoarseTimer, this, [&]() {
         auto list = device->getDevices().value<QList<QObject*>>();
         for(auto item: list) {
@@ -80,12 +82,8 @@ BleModel* BleApi::getBleModel() {
 }
 
 void BleApi::startScan() {
-    //    discoveryAgent->start(QBluetoothDeviceDiscoveryAgent::LowEnergyMethod);
-    //    scanningIsRunning = true;
-}
-
-bool BleApi::getScanningIsRunning() {
-    return scanningIsRunning ;
+    device->startDeviceDiscovery();
+    emit scanStarted();
 }
 
 void BleApi::deviceConnected() {

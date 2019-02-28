@@ -14,25 +14,25 @@ TabButton {
         height: 35
         width: widthBody
         radius: 10
-        color: tabButtonUp.checked ? "#a3ff7b" : "#ffffff"
+        color: (tabButtonUp.checked ? "#464646" : "#f26b3a")
         border.color: "#e9eff4"
         border.width: 2
-        Rectangle {
-            anchors.left: parent.left
-            anchors.leftMargin: 16
-            anchors.verticalCenter: parent.verticalCenter
-            color: useIcon ? "transparent" : "#3598fa"
-            width: 16
-            height: 16
-            Text {
-                text: useIcon ? (iconCode) : ""
-                color: "#3598fa"
-                visible: useIcon
-                font { family: "customFont";}
-                font.pointSize: 14
-                anchors.verticalCenter: parent.verticalCenter
-            }
-        }
+//        Rectangle {
+//            anchors.left: parent.left
+//            anchors.leftMargin: 16
+//            anchors.verticalCenter: parent.verticalCenter
+//            color: useIcon ? "transparent" : "#3598fa"
+//            width: 16
+//            height: 16
+//            Text {
+//                text: useIcon ? (iconCode) : ""
+//                color: "#3598fa"
+//                visible: useIcon
+//                font { family: "customFont";}
+//                font.pointSize: 14
+//                anchors.verticalCenter: parent.verticalCenter
+//            }
+//        }
         Text {
             anchors.left: parent.left
             anchors.right: parent.right
@@ -40,7 +40,7 @@ TabButton {
             anchors.bottom: parent.bottom
             anchors.topMargin: textLine === 1 ? 10 : 3
             anchors.leftMargin: 40
-            color: tabButtonUp.checked ? "black" : "#3598fa"
+            color: "white"
             font.pointSize: 8
             text: qsTr(name)
         }

@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/default.png</file>
+    </qresource>
+    <qresource prefix="/qml">
+        <file>qml/app.qml</file>
+        <file>qml/PropertyPanel/PropertyPanel.qml</file>
+        <file>qml/miscElems/AnimatedAreaSeries.qml</file>
+        <file>qml/miscElems/Button.qml</file>
+        <file>qml/miscElems/ButtonRound.qml</file>
+        <file>qml/miscElems/TabButtonUp.qml</file>
+        <file>qml/leftPanel/leftPanel.qml</file>
+    </qresource>
+</RCC>

@@ -13,12 +13,13 @@ public:
 
     Q_INVOKABLE void bleStartScann();
     Q_INVOKABLE void bleStopScann();
-    Q_INVOKABLE bool getScanningIsRunning();
     Q_INVOKABLE BleModel* getBleModel();
 
 signals:
+    void bleScanStarted();
     void bleScanFinished();
-    void bleServieCharactresticsUpdated(QString serviceName, QString uuid, QString value);
+    void bleServieCharactresticsUpdated(QString serviceName, QString uuid, QString valueAsci, QString valueHex);
+    void bleClearDeviceData();
 public slots:
 
 private:

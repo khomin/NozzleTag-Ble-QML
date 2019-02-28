@@ -77,8 +77,6 @@ Devices::Devices(BleModel* bleModel)
     this->bleModel = bleModel;
 
     setUpdate("Search");
-
-    startDeviceDiscovery();
 }
 
 Devices::~Devices()
@@ -98,6 +96,7 @@ void Devices::startDeviceDiscovery()
     qDeleteAll(devices);
     devices.clear();
     emit devicesUpdated();
+    setUpdate("Scan reset");
 
     setUpdate("Scanning for devices ...");
     //! [les-devicediscovery-2]
@@ -131,6 +130,7 @@ void Devices::deviceScanFinished()
         setUpdate("No Low Energy devices found...");
     else
         setUpdate("Done! Scan Again!");
+    emit scanFinished();
 }
 
 QVariant Devices::getDevices()
@@ -211,6 +211,10 @@ void Devices::scanServices(const QString &address)
     //! [les-controller-1]
 
     m_previousAddress = currentDevice.getAddress();
+}
+
+bool Devices::getScaningIsRunner() {
+    return m_deviceScanState;
 }
 
 void Devices::addLowEnergyService(const QBluetoothUuid &serviceUuid)
@@ -364,6 +368,7 @@ void Devices::deviceScanError(QBluetoothDeviceDiscoveryAgent::Error error)
     m_deviceScanState = false;
     emit devicesUpdated();
     emit stateChanged();
+    emit scanFinished();
 }
 
 bool Devices::state()

@@ -41,7 +41,7 @@ Button {
             anchors.leftMargin: textIsCenter!=true ? (rectIcon.width /2) : undefined
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: textIsCenter==true ? parent.horizontalCenter : undefined
-            color: button.pressed ? "black" : "#3598fa"
+            color: "white"
             font.pointSize: 8
             text: qsTr(name)
         }

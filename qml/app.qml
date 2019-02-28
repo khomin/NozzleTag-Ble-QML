@@ -79,7 +79,6 @@ ApplicationWindow {
             }
         }
         style: MenuBarStyle {
-
             padding {
                 left: 8
                 right: 8
