@@ -12,9 +12,10 @@
 
 #include "bleDevice.h"
 
-Ble::Ble(BleModelDevice * bleModel) {
-    this->bleModel = bleModel;
-    this->bleApi = new BleApi(bleModel);
+Ble::Ble(BleModelDevice* bleModelDevice, BleModelService* bleModelService) {
+    this->bleModelDevice = bleModelDevice;
+    this->bleModelService = bleModelService;
+    this->bleApi = new BleApi(bleModelDevice);
 
     connect(bleApi, &BleApi::characteristicsUpdated, this, [&]() {
         qDebug() << "characteristicsUpdated";
@@ -32,6 +33,7 @@ Ble::Ble(BleModelDevice * bleModel) {
             qDebug() << "name#: " << name;
             qDebug() << "uuid#: " << uuid;
             qDebug() << "valueAsci#: " << valueHex;
+            bleModelService->appendBleDevice()
             emit bleServieCharactresticsUpdated(name, uuid, valueAsci, valueHex);
         }
     });
@@ -92,6 +94,7 @@ BleModelDevice* Ble::getBleModel() {
 }
 
 void Ble::startScan() {
+    bleModelService->clearAll();
     bleApi->startDeviceDiscovery();
     emit scanStarted();
 }

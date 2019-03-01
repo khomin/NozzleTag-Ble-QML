@@ -1,8 +1,10 @@
 #include "application.h"
 
 Application::Application(QObject *parent) : QObject(parent) {
-    bleModel = new BleModelDevice();
-    ble = new Ble(bleModel);
+    bleDeviceModel = new BleModelDevice();
+    bleServiceModel = new BleModelService();
+    ble = new Ble(bleDeviceModel, bleServiceModel);
+
 
     connect(ble, &Ble::scanStarted, this, &Application::bleScanStarted);
     connect(ble, &Ble::scanFinishedSignal, this, &Application::bleScanFinished);
@@ -17,6 +19,10 @@ void Application::bleStopScann() {
     ble->stopScan();
 }
 
-BleModelDevice* Application::getBleModel() {
+BleModelDevice* Application::getBleModelDevice() {
+    return bleModel;
+}
+
+BleModelDevice* Application::getBleModelServices() {
     return bleModel;
 }

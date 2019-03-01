@@ -1,5 +1,5 @@
-#ifndef BleModel_H
-#define BleModel_H
+#ifndef BLEMODEL_SERVICE_H
+#define BLEMODEL_SERVICE_H
 
 #include <QObject>
 #include "source/bluetooth/bleModelItem.h"
@@ -17,7 +17,7 @@ public:
         RoleRssi
     };
 
-    void appendBleDevice(const BleModelItem * bleItem);
+    void appendBleService(const BleModelItem * bleItem);
 
     int getCountDevices();
 
@@ -29,7 +29,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    bool removeRows(int index, int rows, const QModelIndex & parent);
+    bool removeRows(int index, int rows, const QModelIndex & parent) override;
 
     QHash<int, QByteArray> roleNames() const override;
 
@@ -38,4 +38,4 @@ private:
     QHash<int, QByteArray> roleNameMapping;
 };
 
-#endif // BleModel_H
+#endif // BLEMODEL_SERVICE_H

@@ -19,9 +19,7 @@ Item {
 
     Connections {
         target:application
-        onBleServieCharactresticsUpdated: {
-//            listPropertyDescInfoListModel.append({"serviceName":serviceName,"uuid":uuid,"valueAsci":valueAsci,"valueHex":valueHex});
-        }
+        onBleServieCharactresticsUpdated: {}
     }
 
     Rectangle {
