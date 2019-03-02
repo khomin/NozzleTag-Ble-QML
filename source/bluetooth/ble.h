@@ -74,7 +74,7 @@ signals:
 private:
     BleModelDevice* m_ble_model_device;
     BleModelService* m_ble_model_service;
-    BleApi * bleApi;
+    std::shared_ptr<BleApi> bleApi;
 };
 
 #endif

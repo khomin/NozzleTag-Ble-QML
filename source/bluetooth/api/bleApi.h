@@ -66,6 +66,8 @@
 #include "source/bluetooth/service/serviceinfo.h"
 #include "source/bluetooth/device/characteristicinfo.h"
 
+#include <memory>
+
 QT_FORWARD_DECLARE_CLASS (QBluetoothDeviceInfo)
 QT_FORWARD_DECLARE_CLASS (QBluetoothServiceInfo)
 
@@ -75,9 +77,9 @@ class BleApi: public QObject
 public:
     BleApi(BleModelDevice* bleModel);
     ~BleApi();
-    QVariant getDevices();
-    QVariant getServices();
-    QVariant getCharacteristics();
+    QList<std::shared_ptr<BleModelDeviceItem>>& getDevices();
+    QList<std::shared_ptr<ServiceInfo>>& getServices();
+    QList<std::shared_ptr<CharacteristicInfo>>& getCharacteristics();
     bool state();
     bool hasControllerError() const;
 
@@ -117,13 +119,13 @@ signals:
 
 private:
     bool connected = false;
-    BleModelDevice* bleModel;
-    QBluetoothDeviceDiscoveryAgent* discoveryAgent;
-    DeviceInfo currentDevice;
-    QList<QObject *> m_services;
-    QList<QObject *> m_characteristics;
+    std::shared_ptr<BleModelDevice> bleModel;
+    std::shared_ptr<QBluetoothDeviceDiscoveryAgent> discoveryAgent;
+    std::shared_ptr<DeviceInfo> currentDevice;
+    std::shared_ptr<QLowEnergyController> controller;
+    QList<std::shared_ptr<ServiceInfo>> m_services;
+    QList<std::shared_ptr<CharacteristicInfo>> m_characteristics;
     QString m_previousAddress;
-    QLowEnergyController* controller = nullptr;
     bool m_deviceScanState = false;
     bool randomAddress = false;
 };

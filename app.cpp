@@ -18,11 +18,11 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     QObject::connect(viewer.engine(), &QQmlEngine::quit, &viewer, &QWindow::close);
 
-    Application *application = new Application();
+    Application application;
 
-    engine.rootContext()->setContextProperty("application", application);
-    engine.rootContext()->setContextProperty("bleDeviceModel", application->getBleModelDevice());
-    engine.rootContext()->setContextProperty("bleServicesModel", application->getBleModelServices());
+    engine.rootContext()->setContextProperty("application", &application);
+    engine.rootContext()->setContextProperty("bleDeviceModel", application.getBleModelDevice());
+    engine.rootContext()->setContextProperty("bleServicesModel", application.getBleModelServices());
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/qml/app.qml")));
 

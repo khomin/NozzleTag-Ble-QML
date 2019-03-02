@@ -63,25 +63,18 @@
 #include <QTimer>
 
 BleApi::BleApi(BleModelDevice* bleModel) {
-    this->bleModel = bleModel;
+    this->bleModel = std::make_shared<BleModelDevice>(bleModel);
 
-    discoveryAgent = new QBluetoothDeviceDiscoveryAgent();
+    discoveryAgent = std::make_shared<QBluetoothDeviceDiscoveryAgent>();
     discoveryAgent->setLowEnergyDiscoveryTimeout(5000);
-    connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
+    connect(discoveryAgent.get(), &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
             this, &BleApi::addDevice);
-    connect(discoveryAgent, QOverload<QBluetoothDeviceDiscoveryAgent::Error>::of(&QBluetoothDeviceDiscoveryAgent::error),
+    connect(discoveryAgent.get(), QOverload<QBluetoothDeviceDiscoveryAgent::Error>::of(&QBluetoothDeviceDiscoveryAgent::error),
             this, &BleApi::deviceScanError);
-    connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &BleApi::deviceScanFinished);
+    connect(discoveryAgent.get(), &QBluetoothDeviceDiscoveryAgent::finished, this, &BleApi::deviceScanFinished);
 }
 
-BleApi::~BleApi() {
-    delete discoveryAgent;
-    delete controller;
-    qDeleteAll(m_services);
-    qDeleteAll(m_characteristics);
-    m_services.clear();
-    m_characteristics.clear();
-}
+BleApi::~BleApi() {}
 
 void BleApi::startDeviceDiscovery() {
     bleModel->clearAll();
@@ -97,13 +90,13 @@ void BleApi::startDeviceDiscovery() {
 
 void BleApi::addDevice(const QBluetoothDeviceInfo &info) {
     if (info.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration) {
-        auto pdev = new BleModelDeviceItem(info.name(),
+        std::shared_ptr<BleModelDeviceItem> pdev = std::make_shared<BleModelDeviceItem>(info.name(),
                                      info.address().toString(),
                                      info.rssi(),
                                      info,
                                      new DeviceInfo(info));
-        bleModel->appendBleDevice(pdev);
         qDebug() << "Last device added: " + pdev->getDevName().toString();
+        bleModel->appendBleDevice(std::move(pdev));
     }
 }
 
@@ -118,16 +111,16 @@ void BleApi::deviceScanFinished() {
     emit scanFinished();
 }
 
-QVariant BleApi::getDevices() {
-    return QVariant::fromValue(bleModel->getBleDevices());
+QList<std::shared_ptr<BleModelDeviceItem>>& BleApi::getDevices() {
+    return bleModel->getBleDevices();
 }
 
-QVariant BleApi::getServices() {
-    return QVariant::fromValue(m_services);
+QList<std::shared_ptr<ServiceInfo>>& BleApi::getServices() {
+    return m_services;
 }
 
-QVariant BleApi::getCharacteristics() {
-    return QVariant::fromValue(m_characteristics);
+QList<std::shared_ptr<CharacteristicInfo>>& BleApi::getCharacteristics() {
+    return m_characteristics;
 }
 
 void BleApi::scanServices(const QString &address) {
@@ -136,43 +129,40 @@ void BleApi::scanServices(const QString &address) {
 
     for (auto d: devices) {
         if (d->getDevAddr() == address ) {
-            currentDevice.setDevice(d->getDevInfo());
+            currentDevice->setDevice(d->getDevInfo());
         }
     }
 
-    if (!currentDevice.getDevice().isValid()) {
+    if (!currentDevice->getDevice().isValid()) {
         qWarning() << "Not a valid device";
         return;
     }
 
-    qDeleteAll(m_characteristics);
     m_characteristics.clear();
     emit characteristicsChanged();
-    qDeleteAll(m_services);
     m_services.clear();
     emit servicesUpdated();
 
     qDebug() << "Back\n(Connecting to device...)";
 
-    if (controller && m_previousAddress != currentDevice.getAddress()) {
+    if (controller.get() && m_previousAddress != currentDevice->getAddress()) {
         controller->disconnectFromDevice();
-        delete controller;
-        controller = nullptr;
+        controller.reset();
     }
 
     if (!controller) {
         // Connecting signals and slots for connecting to LE services.
-        controller = QLowEnergyController::createCentral(currentDevice.getDevice());
+        controller = std::make_shared<QLowEnergyController>(currentDevice->getDevice());
         controller->disconnectFromDevice();
-        connect(controller, &QLowEnergyController::connected,
+        connect(controller.get(), &QLowEnergyController::connected,
                 this, &BleApi::deviceConnected);
-        connect(controller, QOverload<QLowEnergyController::Error>::of(&QLowEnergyController::error),
+        connect(controller.get(), QOverload<QLowEnergyController::Error>::of(&QLowEnergyController::error),
                 this, &BleApi::errorReceived);
-        connect(controller, &QLowEnergyController::disconnected,
+        connect(controller.get(), &QLowEnergyController::disconnected,
                 this, &BleApi::deviceDisconnected);
-        connect(controller, &QLowEnergyController::serviceDiscovered,
+        connect(controller.get(), &QLowEnergyController::serviceDiscovered,
                 this, &BleApi::addLowEnergyService);
-        connect(controller, &QLowEnergyController::discoveryFinished,
+        connect(controller.get(), &QLowEnergyController::discoveryFinished,
                 this, &BleApi::serviceScanDone);
     }
 
@@ -182,7 +172,7 @@ void BleApi::scanServices(const QString &address) {
         controller->setRemoteAddressType(QLowEnergyController::PublicAddress);
     controller->connectToDevice();
 
-    m_previousAddress = currentDevice.getAddress();
+    m_previousAddress = currentDevice->getAddress();
 }
 
 void BleApi::addLowEnergyService(const QBluetoothUuid &serviceUuid) {
@@ -195,10 +185,10 @@ void BleApi::addLowEnergyService(const QBluetoothUuid &serviceUuid) {
         qWarning() << "Cannot create service for uuid";
         return;
     }
-    auto serv = new ServiceInfo(service);
+    std::shared_ptr<ServiceInfo>serv = std::make_shared<ServiceInfo>(service);
 
     connect(service, &QLowEnergyService::characteristicChanged, this, &BleApi::characteristicsChanged);
-    m_services.append(serv);
+    m_services.append(std::move(serv));
     emit servicesUpdated();
 }
 
@@ -212,21 +202,17 @@ void BleApi::serviceScanDone() {
 
 void BleApi::connectToService(const QString &uuid) {
     QLowEnergyService *service = nullptr;
-    for (auto s: qAsConst(m_services)) {
-        auto serviceInfo = qobject_cast<ServiceInfo *>(s);
-        if (!serviceInfo)
+    for (auto s: m_services) {
+        if (!s.get())
             continue;
-
-        if (serviceInfo->getUuid() == uuid) {
-            service = serviceInfo->service();
+        if (s->getUuid() == uuid) {
+            service = s->service();
             break;
         }
     }
 
     if (!service)
         return;
-
-    qDeleteAll(m_characteristics);
     m_characteristics.clear();
 
     if (service->state() == QLowEnergyService::DiscoveryRequired) {
@@ -240,8 +226,8 @@ void BleApi::connectToService(const QString &uuid) {
     //discovery already done
     const QList<QLowEnergyCharacteristic> chars = service->characteristics();
     for (const QLowEnergyCharacteristic &ch : chars) {
-        auto cInfo = new CharacteristicInfo(ch);
-        m_characteristics.append(cInfo);
+        std::shared_ptr<CharacteristicInfo> cInfo = std::make_shared<CharacteristicInfo>(ch);
+        m_characteristics.append(std::move(cInfo));
     }
 }
 
@@ -292,8 +278,8 @@ void BleApi::serviceDetailsDiscovered(QLowEnergyService::ServiceState newState) 
 
     const QList<QLowEnergyCharacteristic> chars = service->characteristics();
     for (const QLowEnergyCharacteristic &ch : chars) {
-        auto cInfo = new CharacteristicInfo(ch);
-        m_characteristics.append(cInfo);
+        std::shared_ptr<CharacteristicInfo> cInfo = std::make_shared<CharacteristicInfo>(ch);
+        m_characteristics.append(std::move(cInfo));
     }
     emit characteristicsChanged();
 }

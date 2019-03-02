@@ -4,6 +4,7 @@
 #include <QObject>
 #include "source/bluetooth/device/bleModelDeviceItem.h"
 #include <QAbstractListModel>
+#include <memory>
 
 class BleModelDeviceItem;
 
@@ -22,11 +23,11 @@ public:
         RoleAccelZ
     };
 
-    void appendBleDevice(const BleModelDeviceItem* bleItem);
+    void appendBleDevice(std::shared_ptr<BleModelDeviceItem> bleItem);
 
     int getCountDevices();
 
-    QList<BleModelDeviceItem*>& getBleDevices() const;
+    QList<std::shared_ptr<BleModelDeviceItem>>& getBleDevices() const;
 
     void clearAll();
 
@@ -39,7 +40,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    mutable QList<BleModelDeviceItem*> bleDevices;
+    mutable QList<std::shared_ptr<BleModelDeviceItem>> bleDevices;
     QHash<int, QByteArray> roleNameMapping;
 };
 

@@ -15,6 +15,10 @@ BleModelDeviceItem::BleModelDeviceItem(const QString devName,
     this->m_accelZ = "0";
 }
 
+BleModelDeviceItem::~BleModelDeviceItem() {
+    delete m_custom_info;
+}
+
 void BleModelDeviceItem::setDevName(const QVariant val) {
     m_devName = val;
 }

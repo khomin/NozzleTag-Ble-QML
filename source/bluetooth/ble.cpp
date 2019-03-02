@@ -13,17 +13,17 @@
 Ble::Ble(BleModelDevice* bleModelDevice, BleModelService* bleModelService) {
     this->m_ble_model_device = bleModelDevice;
     this->m_ble_model_service = bleModelService;
-    this->bleApi = new BleApi(bleModelDevice);
+    this->bleApi = std::make_shared<BleApi>(bleModelDevice);
 
-    connect(bleApi, &BleApi::characteristicsChanged, this, [&]() {
+    connect(bleApi.get(), &BleApi::characteristicsChanged, this, [&]() {
         qDebug() << "characteristicsUpdated";
-        auto chList = bleApi->getCharacteristics().value<QList<QObject*>>();
+        auto chList = bleApi->getCharacteristics();
         for(auto chListItem: chList) {
-            QString name = ((CharacteristicInfo*)chListItem)->getCharacteristic().name();
-            QString uuid = ((CharacteristicInfo*)chListItem)->getCharacteristic().uuid().toString();
+            QString name = chListItem->getCharacteristic().name();
+            QString uuid = chListItem->getCharacteristic().uuid().toString();
             QString valueHex;
             QString valueAsci;
-            auto tvalue = ((CharacteristicInfo*)chListItem)->getValue();
+            auto tvalue = chListItem->getValue();
             for(auto i: tvalue) {
                 valueHex += "0x" + QString::number(i&0xFF, 16) + " ";
             }
@@ -47,53 +47,53 @@ Ble::Ble(BleModelDevice* bleModelDevice, BleModelService* bleModelService) {
         }
     });
 
-    connect(bleApi, &BleApi::destroyed, this, [&]() {
+    connect(bleApi.get(), &BleApi::destroyed, this, [&]() {
         qDebug() << "destroyed";
     });
 
-    connect(bleApi, &BleApi::devicesUpdated, this, [&]() {
+    connect(bleApi.get(), &BleApi::devicesUpdated, this, [&]() {
         qDebug() << "devicesUpdated";
     });
 
-    connect(bleApi, &BleApi::disconnected, this, [&]() {
+    connect(bleApi.get(), &BleApi::disconnected, this, [&]() {
         qDebug() << "disconnected";
     });
 
-    connect(bleApi, &BleApi::randomAddressChanged, this, [&]() {
+    connect(bleApi.get(), &BleApi::randomAddressChanged, this, [&]() {
         qDebug() << "randomAddressChanged";
     });
 
-    connect(bleApi, &BleApi::servicesUpdated, this, [&]() {
+    connect(bleApi.get(), &BleApi::servicesUpdated, this, [&]() {
         qDebug() << "servicesUpdated";
-        auto serv = bleApi->getServices().value<QList<QObject*>>();
+        auto serv = bleApi->getServices();
         for(auto servItem: serv) {
-            auto name = ((ServiceInfo*)servItem)->getName();
+            auto name = servItem->getName();
             qDebug() << "serv name = " << name;
         }
-        auto servList = bleApi->getServices().value<QList<QObject*>>();
+        auto servList = bleApi->getServices();
         for(auto servItem: servList) {
-            auto uuid = ((ServiceInfo*)servItem)->getUuid();
+            auto uuid = servItem->getUuid();
             bleApi->connectToService(uuid);
         }
     });
 
-    connect(bleApi, &BleApi::stateChanged, this, [&]() {
+    connect(bleApi.get(), &BleApi::stateChanged, this, [&]() {
         qDebug() << "stateChanged";
     });
 
-    connect(bleApi, &BleApi::updateChanged, this, [&]() {
+    connect(bleApi.get(), &BleApi::updateChanged, this, [&]() {
         qDebug() << "updateChanged";
     });
 
-    connect(bleApi, &BleApi::scanFinished, this, &Ble::scanFinishedSignal);
+    connect(bleApi.get(), &BleApi::scanFinished, this, &Ble::scanFinishedSignal);
 
-    QTimer::singleShot(3000, Qt::CoarseTimer, this, [&]() {
-        auto list = bleApi->getDevices().value<QList<BleModelDeviceItem*>>();
-        for(auto i: list) {
-            auto addr = i->getDevAddr();
-            bleApi->scanServices(addr.toString());
-        }
-    });
+//    QTimer::singleShot(3000, Qt::CoarseTimer, this, [&]() {
+//        auto list = bleApi->getDevices().value<QList<BleModelDeviceItem*>>();
+//        for(auto i: list) {
+//            auto addr = i->getDevAddr();
+//            bleApi->scanServices(addr.toString());
+//        }
+//    });
 }
 
 Ble::~Ble() {}

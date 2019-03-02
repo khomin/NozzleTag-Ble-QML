@@ -13,6 +13,8 @@ public:
                  const int rssi,
                  const QBluetoothDeviceInfo & info,
                  DeviceInfo * customInfo = nullptr);
+   ~BleModelDeviceItem();
+
     void setDevName(const QVariant val);
     void setDevAddr(const QVariant val);
     void setRssi(const QVariant val);

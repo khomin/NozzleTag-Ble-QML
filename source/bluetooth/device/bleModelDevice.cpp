@@ -9,17 +9,17 @@ BleModelDevice::BleModelDevice(QObject *parent) {
     roleNameMapping[RoleAccelZ] = "accelZ";
 }
 
-void BleModelDevice::appendBleDevice(const BleModelDeviceItem* bleItem) {
+void BleModelDevice::appendBleDevice(std::shared_ptr<BleModelDeviceItem> bleItem) {
     for(auto i: bleDevices) {
         if(bleItem->getDevAddr() == bleItem->getDevAddr()) {
-            i = const_cast<BleModelDeviceItem*>(bleItem);
+            i = bleItem;
             QModelIndex index = createIndex(0,0);
             emit dataChanged(index, index);
             return;
         }
     }
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    bleDevices.push_back((BleModelDeviceItem*) std::move(bleItem));
+    bleDevices.push_back(std::move(bleItem));
     endInsertRows();
 }
 
@@ -41,12 +41,14 @@ void BleModelDevice::clearAll() {
 bool BleModelDevice::removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) {
     Q_UNUSED(parent);
     beginRemoveRows(QModelIndex(), row, row + count - 1);
-    while (count--) delete bleDevices.takeAt(row);
+    while (count--) {
+        bleDevices.takeAt(row);
+    }
     endRemoveRows();
     return true;
 }
 
-QList<BleModelDeviceItem*>& BleModelDevice::getBleDevices() const {
+QList<std::shared_ptr<BleModelDeviceItem>>& BleModelDevice::getBleDevices() const {
     return bleDevices;
 }
 
@@ -54,7 +56,7 @@ QVariant BleModelDevice::data(const QModelIndex &index, int role) const {
     if (index.row() < 0 || index.row() >= bleDevices.count())
         return QVariant();
 
-    const BleModelDeviceItem* ble_dev = bleDevices[index.row()];
+    const BleModelDeviceItem* ble_dev = bleDevices[index.row()].get();
     if (role == RoleName)
         return ble_dev->getDevName();
     else if (role == RoleAddr)

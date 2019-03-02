@@ -1,14 +1,14 @@
 #include "application.h"
 
 Application::Application(QObject *parent) : QObject(parent) {
-    bleDeviceModel = new BleModelDevice();
-    bleServiceModel = new BleModelService();
+    bleDeviceModel = std::make_shared<BleModelDevice>();
+    bleServiceModel = std::make_shared<BleModelService>();
 
-    ble = new Ble(bleDeviceModel, bleServiceModel);
+    ble = std::make_shared<Ble>(bleDeviceModel.get(), bleServiceModel.get());
 
-    connect(ble, &Ble::scanStarted, this, &Application::bleScanStarted);
-    connect(ble, &Ble::scanFinishedSignal, this, &Application::bleScanFinished);
-    connect(ble, &Ble::bleServieCharactresticsUpdated, this, &Application::bleServieCharactresticsUpdated);
+    connect(ble.get(), &Ble::scanStarted, this, &Application::bleScanStarted);
+    connect(ble.get(), &Ble::scanFinishedSignal, this, &Application::bleScanFinished);
+    connect(ble.get(), &Ble::bleServieCharactresticsUpdated, this, &Application::bleServieCharactresticsUpdated);
 }
 
 void Application::bleStartScann() {
@@ -16,9 +16,9 @@ void Application::bleStartScann() {
 }
 
 BleModelDevice* Application::getBleModelDevice() {
-    return bleDeviceModel;
+    return bleDeviceModel.get();
 }
 
 BleModelService* Application::getBleModelServices() {
-    return bleServiceModel;
+    return bleServiceModel.get();
 }
