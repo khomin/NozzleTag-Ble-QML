@@ -73,9 +73,7 @@ Ble::Ble(BleModelDevice* bleModelDevice, BleModelService* bleModelService) {
         auto servList = bleApi->getServices().value<QList<QObject*>>();
         for(auto servItem: servList) {
             auto uuid = ((ServiceInfo*)servItem)->getUuid();
-            if(uuid == "f0001180-0451-4000-b000-000000000000") {
-                bleApi->connectToService(uuid);
-            }
+            bleApi->connectToService(uuid);
         }
     });
 
@@ -96,34 +94,6 @@ Ble::Ble(BleModelDevice* bleModelDevice, BleModelService* bleModelService) {
             bleApi->scanServices(addr.toString());
         }
     });
-
-    QTimer::singleShot(6000, Qt::CoarseTimer, this, [&]() {
-        auto serv = bleApi->getServices().value<QList<QObject*>>();
-        for(auto servItem: serv) {
-            auto res = dynamic_cast<ServiceInfo*>(servItem);
-            auto name = res->getUuid();
-            if(name == "f0001180-0451-4000-b000-000000000000") {
-                bleApi->connectToService(name);
-            }
-        }
-    });
-
-
-    QTimer* m_timer_poll = new QTimer();
-    connect(m_timer_poll, &QTimer::timeout, this, [&]() {
-        auto serv = bleApi->getServices().value<QList<QObject*>>();
-        for(auto servItem: serv) {
-            auto res = dynamic_cast<ServiceInfo*>(servItem);
-            auto name = res->getUuid();
-            if(name == "f0001180-0451-4000-b000-000000000000") {
-                res->service()->discoverDetails();
-                auto list = bleApi->getDevices().value<QList<BleModelDeviceItem*>>();
-                auto r = res->service()->characteristic(list.first()->getDevInfo().serviceUuids().first());
-                qDebug() << r.uuid() << r.value() << r.name();
-            }
-        }
-    });
-    m_timer_poll->start(1000);
 }
 
 Ble::~Ble() {}

@@ -147,7 +147,7 @@ void BleApi::scanServices(const QString &address) {
 
     qDeleteAll(m_characteristics);
     m_characteristics.clear();
-//    emit characteristicsUpdated();
+    emit characteristicsChanged();
     qDeleteAll(m_services);
     m_services.clear();
     emit servicesUpdated();
@@ -196,9 +196,6 @@ void BleApi::addLowEnergyService(const QBluetoothUuid &serviceUuid) {
         return;
     }
     auto serv = new ServiceInfo(service);
-
-    qDebug() << "!!!!!!!!!!" << serv->getName();
-    qDebug() << "!!!!!!!!!!" << serv->getUuid();
 
     connect(service, &QLowEnergyService::characteristicChanged, this, &BleApi::characteristicsChanged);
     m_services.append(serv);

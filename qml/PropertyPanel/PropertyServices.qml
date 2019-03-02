@@ -60,21 +60,25 @@ ScrollView {
                             text: "Name: " + model.serviceName
                             width: parent.width
                             height: 25
+                            font.pointSize: 9
                         }
                         TextField {
                             text: "UUID:" + model.serviceUuid
                             width: parent.width
                             height: 25
+                            font.pointSize: 9
                         }
                         TextField {
                             text: "ASCI: " + model.serviceAsci
                             width: parent.width
                             height: 25
+                            font.pointSize: 9
                         }
                         TextField {
                             text: "HEX: " + model.serviceHex
                             width: parent.width
                             height: 25
+                            font.pointSize: 9
                         }
                     }
                 }
