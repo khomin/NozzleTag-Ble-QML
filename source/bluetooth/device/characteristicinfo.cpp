@@ -54,14 +54,7 @@
 #include <QByteArray>
 
 CharacteristicInfo::CharacteristicInfo(const QLowEnergyCharacteristic &characteristic):
-    m_characteristic(characteristic)
-{
-}
-
-void CharacteristicInfo::setCharacteristic(const QLowEnergyCharacteristic &characteristic)
-{
-    m_characteristic = characteristic;
-    emit characteristicChanged();
+    m_characteristic(characteristic) {
 }
 
 QString CharacteristicInfo::getName() const

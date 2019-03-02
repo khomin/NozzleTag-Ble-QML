@@ -1,11 +1,11 @@
-#ifndef BleModel_H
-#define BleModel_H
+#ifndef BLEMODEL_DEVICE_H
+#define BLEMODEL_DEVICE_H
 
 #include <QObject>
-#include "source/bluetooth/bleModelItem.h"
+#include "source/bluetooth/device/bleModelDeviceItem.h"
 #include <QAbstractListModel>
 
-class BleModelItem;
+class BleModelDeviceItem;
 
 class BleModelDevice : public QAbstractListModel
 {
@@ -16,14 +16,17 @@ public:
     enum BleRoles {
         RoleName = Qt::UserRole + 1,
         RoleAddr,
-        RoleRssi
+        RoleRssi,
+        RoleAccelX,
+        RoleAccelY,
+        RoleAccelZ
     };
 
-    void appendBleDevice(const BleModelItem * bleItem);
+    void appendBleDevice(const BleModelDeviceItem* bleItem);
 
     int getCountDevices();
 
-    QList<BleModelItem*>& getBleDevices();
+    QList<BleModelDeviceItem*>& getBleDevices() const;
 
     void clearAll();
 
@@ -36,8 +39,8 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    QList<BleModelItem*> bleDevices;
+    mutable QList<BleModelDeviceItem*> bleDevices;
     QHash<int, QByteArray> roleNameMapping;
 };
 
-#endif // BleModel_H
+#endif // BLEMODEL_DEVICE_H

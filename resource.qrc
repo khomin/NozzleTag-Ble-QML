@@ -10,5 +10,7 @@
         <file>qml/miscElems/ButtonRound.qml</file>
         <file>qml/miscElems/TabButtonUp.qml</file>
         <file>qml/leftPanel/LeftPanel.qml</file>
+        <file>qml/PropertyPanel/PropertyServices.qml</file>
+        <file>qml/PropertyPanel/PropertyData.qml</file>
     </qresource>
 </RCC>

@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include "./source/bluetooth/ble.h"
-#include "./source/bluetooth/bleModelDevice.h"
-#include "./source/bluetooth/bleModelService.h"
+#include "./source/bluetooth/device/bleModelDevice.h"
+#include "./source/bluetooth/service/bleModelService.h"
 
 class Application : public QObject
 {
@@ -13,9 +13,8 @@ public:
     explicit Application(QObject *parent = nullptr);
 
     Q_INVOKABLE void bleStartScann();
-    Q_INVOKABLE void bleStopScann();
     Q_INVOKABLE BleModelDevice* getBleModelDevice();
-    Q_INVOKABLE BleModelDevice* getBleModelServices();
+    Q_INVOKABLE BleModelService* getBleModelServices();
 
 signals:
     void bleScanStarted();

@@ -1,23 +1,21 @@
 #include <qbluetoothaddress.h>
 #include <qbluetoothdevicediscoveryagent.h>
 #include <qbluetoothlocaldevice.h>
-#include "characteristicinfo.h"
-#include "ble.h"
 #include <QMenu>
 #include <QVector>
 #include <QPair>
 #include <QTimer>
 #include <QDebug>
-#include <QThread>
-
-#include "bleDevice.h"
+#include "source/bluetooth/device/characteristicinfo.h"
+#include "source/bluetooth/device/bleDevice.h"
+#include "source/bluetooth/ble.h"
 
 Ble::Ble(BleModelDevice* bleModelDevice, BleModelService* bleModelService) {
-    this->bleModelDevice = bleModelDevice;
-    this->bleModelService = bleModelService;
+    this->m_ble_model_device = bleModelDevice;
+    this->m_ble_model_service = bleModelService;
     this->bleApi = new BleApi(bleModelDevice);
 
-    connect(bleApi, &BleApi::characteristicsUpdated, this, [&]() {
+    connect(bleApi, &BleApi::characteristicsChanged, this, [&]() {
         qDebug() << "characteristicsUpdated";
         auto chList = bleApi->getCharacteristics().value<QList<QObject*>>();
         for(auto chListItem: chList) {
@@ -33,7 +31,18 @@ Ble::Ble(BleModelDevice* bleModelDevice, BleModelService* bleModelService) {
             qDebug() << "name#: " << name;
             qDebug() << "uuid#: " << uuid;
             qDebug() << "valueAsci#: " << valueHex;
-            bleModelService->appendBleDevice()
+
+            m_ble_model_service->appendBleService(new BleModelServiceItem(name, uuid, valueHex, valueAsci));
+
+            if(uuid == "{f0001185-0451-4000-b000-000000000000}") {
+                auto dev = m_ble_model_device->getBleDevices();
+                for(auto d: dev) {
+                    if(d->getDevName() == "Locus NozzleTag") {
+                        d->setAccelX(valueHex);
+                        m_ble_model_device->appendBleDevice(d);
+                    }
+                }
+            }
             emit bleServieCharactresticsUpdated(name, uuid, valueAsci, valueHex);
         }
     });
@@ -64,7 +73,9 @@ Ble::Ble(BleModelDevice* bleModelDevice, BleModelService* bleModelService) {
         auto servList = bleApi->getServices().value<QList<QObject*>>();
         for(auto servItem: servList) {
             auto uuid = ((ServiceInfo*)servItem)->getUuid();
-            bleApi->connectToService(uuid);
+            if(uuid == "f0001180-0451-4000-b000-000000000000") {
+                bleApi->connectToService(uuid);
+            }
         }
     });
 
@@ -79,26 +90,51 @@ Ble::Ble(BleModelDevice* bleModelDevice, BleModelService* bleModelService) {
     connect(bleApi, &BleApi::scanFinished, this, &Ble::scanFinishedSignal);
 
     QTimer::singleShot(3000, Qt::CoarseTimer, this, [&]() {
-        auto list = bleApi->getDevices().value<QList<BleModelItem*>>();
+        auto list = bleApi->getDevices().value<QList<BleModelDeviceItem*>>();
         for(auto i: list) {
             auto addr = i->getDevAddr();
-            bleApi->scanServices(addr);
+            bleApi->scanServices(addr.toString());
         }
     });
+
+    QTimer::singleShot(6000, Qt::CoarseTimer, this, [&]() {
+        auto serv = bleApi->getServices().value<QList<QObject*>>();
+        for(auto servItem: serv) {
+            auto res = dynamic_cast<ServiceInfo*>(servItem);
+            auto name = res->getUuid();
+            if(name == "f0001180-0451-4000-b000-000000000000") {
+                bleApi->connectToService(name);
+            }
+        }
+    });
+
+
+    QTimer* m_timer_poll = new QTimer();
+    connect(m_timer_poll, &QTimer::timeout, this, [&]() {
+        auto serv = bleApi->getServices().value<QList<QObject*>>();
+        for(auto servItem: serv) {
+            auto res = dynamic_cast<ServiceInfo*>(servItem);
+            auto name = res->getUuid();
+            if(name == "f0001180-0451-4000-b000-000000000000") {
+                res->service()->discoverDetails();
+                auto list = bleApi->getDevices().value<QList<BleModelDeviceItem*>>();
+                auto r = res->service()->characteristic(list.first()->getDevInfo().serviceUuids().first());
+                qDebug() << r.uuid() << r.value() << r.name();
+            }
+        }
+    });
+    m_timer_poll->start(1000);
 }
 
 Ble::~Ble() {}
 
-BleModelDevice* Ble::getBleModel() {
-    return bleModel;
+BleModelDevice* Ble::getBleModelDevice() {
+    return m_ble_model_device;
 }
 
 void Ble::startScan() {
-    bleModelService->clearAll();
+    m_ble_model_service->clearAll();
+    m_ble_model_device->clearAll();
     bleApi->startDeviceDiscovery();
     emit scanStarted();
-}
-
-void Ble::stopScan() {
-
 }

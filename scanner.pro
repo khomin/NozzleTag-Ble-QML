@@ -12,15 +12,16 @@ CONFIG += c++14
 SOURCES += \
     app.cpp \
     application.cpp \
-    source/bluetooth/bleDevice.cpp \
-    source/bluetooth/bleModelItem.cpp \
-    source/bluetooth/characteristicinfo.cpp \
-    source/bluetooth/deviceinfo.cpp \
-    source/bluetooth/serviceinfo.cpp \
     source/bluetooth/ble.cpp \
-    source/bluetooth/bleApi.cpp \
-    source/bluetooth/bleModelDevice.cpp \
-    source/bluetooth/bleModelService.cpp
+    source/bluetooth/api/bleApi.cpp \
+    source/bluetooth/device/bleDevice.cpp \
+    source/bluetooth/device/bleModelDevice.cpp \
+    source/bluetooth/device/characteristicinfo.cpp \
+    source/bluetooth/device/deviceinfo.cpp \
+    source/bluetooth/device/bleModelDeviceItem.cpp \
+    source/bluetooth/service/bleModelService.cpp \
+    source/bluetooth/service/serviceinfo.cpp \
+    source/bluetooth/service/bleModelServiceItem.cpp
 
 TARGET = NozzleBle
 TEMPLATE = app
@@ -35,12 +36,13 @@ INSTALLS += target
 
 HEADERS += \
     application.h \
-    source/bluetooth/bleDevice.h \
-    source/bluetooth/bleModelItem.h \
-    source/bluetooth/characteristicinfo.h \
-    source/bluetooth/deviceinfo.h \
-    source/bluetooth/serviceinfo.h \
     source/bluetooth/ble.h \
-    source/bluetooth/bleApi.h \
-    source/bluetooth/bleModelDevice.h \
-    source/bluetooth/bleModelService.h
+    source/bluetooth/api/bleApi.h \
+    source/bluetooth/device/bleDevice.h \
+    source/bluetooth/device/bleModelDevice.h \
+    source/bluetooth/device/characteristicinfo.h \
+    source/bluetooth/device/deviceinfo.h \
+    source/bluetooth/service/bleModelService.h \
+    source/bluetooth/service/serviceinfo.h \
+    source/bluetooth/device/bleModelDeviceItem.h \
+    source/bluetooth/service/bleModelServicetem.h

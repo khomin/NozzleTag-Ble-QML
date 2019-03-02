@@ -21,7 +21,8 @@ int main(int argc, char *argv[])
     Application *application = new Application();
 
     engine.rootContext()->setContextProperty("application", application);
-    engine.rootContext()->setContextProperty("bleDeviceModel", application->getBleModel());
+    engine.rootContext()->setContextProperty("bleDeviceModel", application->getBleModelDevice());
+    engine.rootContext()->setContextProperty("bleServicesModel", application->getBleModelServices());
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/qml/app.qml")));
 

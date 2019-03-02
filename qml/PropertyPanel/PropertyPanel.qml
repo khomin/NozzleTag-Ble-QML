@@ -12,7 +12,8 @@ import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 import QtQuick.Dialogs 1.2
 import QtQml.Models 2.11
-import "qrc:/qml/qml/miscElems/"
+import "qrc:/qml/qml/miscElems/" as CustomElements
+import "qrc:/qml/qml/PropertyPanel/" as PropertyDataItems
 
 Item {
     id: projectDeviceScreen
@@ -39,19 +40,19 @@ Item {
                 id:tabProperty
                 anchors.left: parent.left
                 anchors.leftMargin: 30
-                currentIndex: 1
+                currentIndex: 0
                 font.pointSize: 8
                 background: Rectangle {
                     color: "#ffffff"
                 }
-                TabButtonUp {
+                CustomElements.TabButtonUp {
                     id:tabItemProperty
                     name: "Property"
                     textLine:1
                     widthBody: 150
                     height: 20
                 }
-                TabButtonUp {
+                CustomElements.TabButtonUp {
                     id:tabItemInfoDescriptor
                     name: "Info descriptor"
                     widthBody: 180
@@ -68,93 +69,13 @@ Item {
                 currentIndex: tabProperty.currentIndex
                 clip: true
                 Item {
-                    ScrollView {
-                        clip: true
-                        anchors.fill: parent
-                        Rectangle {
-                            color: "white"
-                            height: parent.height
-                            width: parent.width
-                        }
+                    PropertyDataItems.PropertyData {
+                        id:propertyDevData
                     }
                 }
                 Item {
-                    ScrollView {
-                        clip: true
-                        anchors.fill: parent
-                        Rectangle {
-                            color: "white"
-                            height: parent.height
-                            width: parent.width
-
-                            ListView {
-                                id: listPropertyDescInfo
-                                model: bleDeviceModel
-                                clip: true
-                                anchors.left: parent.left
-                                anchors.leftMargin: 15
-                                anchors.right: parent.right
-                                anchors.rightMargin: 15
-                                anchors.top: parent.top
-                                anchors.bottom: parent.bottom
-                                spacing: 10
-
-                                ScrollBar.vertical: ScrollBar {
-                                    width: 20
-                                }
-
-                                delegate: Item {
-                                    id: listPropertyDescInfoDelegate
-                                    height: 150
-                                    width: parent.width
-                                    Rectangle {
-                                        id:rectService
-                                        anchors.fill: parent
-                                        color: "white"
-                                        Column {
-                                            anchors.left: parent.left
-                                            anchors.leftMargin: 15
-                                            anchors.right: parent.right
-                                            anchors.rightMargin: 15
-                                            anchors.top: parent.top
-                                            anchors.topMargin: 15
-                                            anchors.bottom: parent.bottom
-                                            anchors.bottomMargin: 15
-                                            spacing: 5
-                                            TextField {
-                                                text: "Name: " + model.devAddr//model.serviceName
-                                                width: parent.width
-                                                height: 25
-                                            }
-//                                            TextField {
-//                                                text: "UUID:" + model.uuid
-//                                                width: parent.width
-//                                                height: 25
-//                                            }
-//                                            TextField {
-//                                                text: "ASCI: " + model.valueAsci
-//                                                width: parent.width
-//                                                height: 25
-//                                            }
-//                                            TextField {
-//                                                text: "HEX: " + model.valueHex
-//                                                width: parent.width
-//                                                height: 25
-//                                            }
-                                        }
-                                    }
-                                    DropShadow {
-                                        anchors.fill: rectService
-                                        horizontalOffset: 3
-                                        verticalOffset: 3
-                                        radius: 8.0
-                                        samples: 17
-                                        color: "#80000000"
-                                        source: rectService
-                                    }
-                                }
-                            }
-                        }
+                    PropertyDataItems.PropertyServices {
+                        id:propertyServices
                     }
                 }
             }

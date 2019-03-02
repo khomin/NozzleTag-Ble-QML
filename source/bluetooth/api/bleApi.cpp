@@ -56,7 +56,7 @@
 #include <qbluetoothlocaldevice.h>
 #include <qbluetoothdeviceinfo.h>
 #include <qbluetoothservicediscoveryagent.h>
-#include "bleModelItem.h"
+#include "source/bluetooth/device/bleModelDevice.h"
 #include <QDebug>
 #include <QList>
 #include <QMetaEnum>
@@ -77,21 +77,16 @@ BleApi::BleApi(BleModelDevice* bleModel) {
 BleApi::~BleApi() {
     delete discoveryAgent;
     delete controller;
-//    qDeleteAll(devices);
     qDeleteAll(m_services);
     qDeleteAll(m_characteristics);
-//    devices.clear();
     m_services.clear();
     m_characteristics.clear();
 }
 
 void BleApi::startDeviceDiscovery() {
-//    qDeleteAll(devices);
     bleModel->clearAll();
     emit devicesUpdated();
     qDebug() << "Scan reset";
-
-    qDebug() << "Scanning for devices ...";
     discoveryAgent->start(QBluetoothDeviceDiscoveryAgent::LowEnergyMethod);
 
     if (discoveryAgent->isActive()) {
@@ -102,13 +97,13 @@ void BleApi::startDeviceDiscovery() {
 
 void BleApi::addDevice(const QBluetoothDeviceInfo &info) {
     if (info.coreConfigurations() & QBluetoothDeviceInfo::LowEnergyCoreConfiguration) {
-        auto pdev = new BleModelItem(info.name(),
+        auto pdev = new BleModelDeviceItem(info.name(),
                                      info.address().toString(),
                                      info.rssi(),
                                      info,
                                      new DeviceInfo(info));
         bleModel->appendBleDevice(pdev);
-        qDebug() << "Last device added: " + pdev->getDevName();
+        qDebug() << "Last device added: " + pdev->getDevName().toString();
     }
 }
 
@@ -152,7 +147,7 @@ void BleApi::scanServices(const QString &address) {
 
     qDeleteAll(m_characteristics);
     m_characteristics.clear();
-    emit characteristicsUpdated();
+//    emit characteristicsUpdated();
     qDeleteAll(m_services);
     m_services.clear();
     emit servicesUpdated();
@@ -190,27 +185,32 @@ void BleApi::scanServices(const QString &address) {
     m_previousAddress = currentDevice.getAddress();
 }
 
-bool BleApi::getScaningIsRunner() {
-    return m_deviceScanState;
-}
-
 void BleApi::addLowEnergyService(const QBluetoothUuid &serviceUuid) {
     QLowEnergyService *service = controller->createServiceObject(serviceUuid);
+    connect(service, &QLowEnergyService::stateChanged, this, &BleApi::characteristicsChanged);
+    connect(service, &QLowEnergyService::characteristicChanged, this, &BleApi::characteristicsChanged);
+    connect(service, &QLowEnergyService::descriptorWritten, this, &BleApi::characteristicsChanged);
+    service->discoverDetails();
     if (!service) {
         qWarning() << "Cannot create service for uuid";
         return;
     }
     auto serv = new ServiceInfo(service);
-    m_services.append(serv);
 
+    qDebug() << "!!!!!!!!!!" << serv->getName();
+    qDebug() << "!!!!!!!!!!" << serv->getUuid();
+
+    connect(service, &QLowEnergyService::characteristicChanged, this, &BleApi::characteristicsChanged);
+    m_services.append(serv);
     emit servicesUpdated();
 }
 
 void BleApi::serviceScanDone() {
     qDebug() << "Back\n(Service scan done!)";
     // force UI in case we didn't find anything
-    if (m_services.isEmpty())
+    if (m_services.isEmpty()) {
         emit servicesUpdated();
+    }
 }
 
 void BleApi::connectToService(const QString &uuid) {
@@ -231,7 +231,6 @@ void BleApi::connectToService(const QString &uuid) {
 
     qDeleteAll(m_characteristics);
     m_characteristics.clear();
-    emit characteristicsUpdated();
 
     if (service->state() == QLowEnergyService::DiscoveryRequired) {
         connect(service, &QLowEnergyService::stateChanged,
@@ -247,8 +246,6 @@ void BleApi::connectToService(const QString &uuid) {
         auto cInfo = new CharacteristicInfo(ch);
         m_characteristics.append(cInfo);
     }
-
-    QTimer::singleShot(0, this, &BleApi::characteristicsUpdated);
 }
 
 void BleApi::deviceConnected() {
@@ -301,8 +298,7 @@ void BleApi::serviceDetailsDiscovered(QLowEnergyService::ServiceState newState) 
         auto cInfo = new CharacteristicInfo(ch);
         m_characteristics.append(cInfo);
     }
-
-    emit characteristicsUpdated();
+    emit characteristicsChanged();
 }
 
 void BleApi::deviceScanError(QBluetoothDeviceDiscoveryAgent::Error error) {

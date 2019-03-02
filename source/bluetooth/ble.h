@@ -51,9 +51,9 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 
-#include "source/bluetooth/bleModelDevice.h"
-#include "source/bluetooth/bleModelService.h"
-#include "source/bluetooth/bleApi.h"
+#include "source/bluetooth/device/bleModelDevice.h"
+#include "source/bluetooth/service/bleModelService.h"
+#include "source/bluetooth/api/bleApi.h"
 
 class Ble : public QObject
 {
@@ -72,8 +72,8 @@ signals:
     void bleServieCharactresticsUpdated(QString serviceName, QString uuid, QString valueAsci, QString valueHex);
 
 private:
-    BleModelDevice* bleModelDevice;
-    BleModelService* bleModelService;
+    BleModelDevice* m_ble_model_device;
+    BleModelService* m_ble_model_service;
     BleApi * bleApi;
 };
 

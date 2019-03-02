@@ -61,16 +61,12 @@ class CharacteristicInfo: public QObject
 public:
     CharacteristicInfo() = default;
     CharacteristicInfo(const QLowEnergyCharacteristic &characteristic);
-    void setCharacteristic(const QLowEnergyCharacteristic &characteristic);
     QString getName() const;
     QString getUuid() const;
     QByteArray getValue() const;
     QString getHandle() const;
     QString getPermission() const;
     QLowEnergyCharacteristic getCharacteristic() const;
-
-Q_SIGNALS:
-    void characteristicChanged();
 
 private:
     QLowEnergyCharacteristic m_characteristic;

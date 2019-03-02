@@ -60,11 +60,11 @@
 #include <QLowEnergyController>
 #include <QBluetoothServiceInfo>
 
-#include "bleModelDevice.h"
-#include "bleDevice.h"
-#include "deviceinfo.h"
-#include "serviceinfo.h"
-#include "characteristicinfo.h"
+#include "source/bluetooth/device/bleModelDevice.h"
+#include "source/bluetooth/device/bleDevice.h"
+#include "source/bluetooth/device/deviceinfo.h"
+#include "source/bluetooth/service/serviceinfo.h"
+#include "source/bluetooth/device/characteristicinfo.h"
 
 QT_FORWARD_DECLARE_CLASS (QBluetoothDeviceInfo)
 QT_FORWARD_DECLARE_CLASS (QBluetoothServiceInfo)
@@ -105,12 +105,10 @@ public slots:
     // QLowEnergyService related
     void serviceDetailsDiscovered(QLowEnergyService::ServiceState newState);
 
-    bool getScaningIsRunner();
-
 signals:
     void devicesUpdated();
     void servicesUpdated();
-    void characteristicsUpdated();
+    void characteristicsChanged();
     void updateChanged();
     void stateChanged();
     void disconnected();
